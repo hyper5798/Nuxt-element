@@ -1,56 +1,74 @@
 <template>
-  <section class="container">
-    <div>
-      <div>
-        <el-button>默认按钮</el-button>
-        <el-button type="primary">主要按钮</el-button>
-        <el-button type="success">成功按钮</el-button>
-        <el-button type="info">信息按钮</el-button>
-        <el-button type="warning">警告按钮</el-button>
-        <el-button type="danger">危险按钮</el-button>
-      </div>
-    </div>
-  </section>
+  <el-row>
+    <el-button>默认按钮</el-button>
+    <el-button type="primary">主要按钮</el-button>
+    <el-button type="success">成功按钮</el-button>
+    <el-button type="info">信息按钮</el-button>
+    <el-button type="warning">警告按钮</el-button>
+    <el-button type="danger">危险按钮</el-button>
+  </el-row>
 </template>
 
 <script>
-import AppLogo from '~/components/AppLogo.vue'
-
-export default {
-  middleware: 'auth',
-  components: {
-    AppLogo
-  }
-}
 </script>
 
 <style>
-.container {
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-}
+    .el-dropdown-menu {
+      margin-top: 20px;
+    }
+    .db-header {
+      width: 100%;
+      height: 60px;
+      background: #20A0FF;
+      padding: 13px 20px;
+      box-sizing: border-box;
+      color: #ffffff;
+      z-index: 99;
+      position: fixed;
+      left: 0;
+      top: 0;
+    }
+      .logo{
+        font-size: 2.4rem;
+      }
 
-.title {
-  font-family: "Quicksand", "Source Sans Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; /* 1 */
-  display: block;
-  font-weight: 300;
-  font-size: 100px;
-  color: #35495e;
-  letter-spacing: 1px;
-}
+      .user-info {
+        float: right;
+      }
+        img {
+          width: 25px;
+          height: 25px;
+          vertical-align: -7px;
+          margin: 0 0 0 10px;
+          cursor: pointer;
+        }
 
-.subtitle {
-  font-weight: 300;
-  font-size: 42px;
-  color: #526488;
-  word-spacing: 5px;
-  padding-bottom: 15px;
-}
+      .db-menu-wrapper {
+        position: fixed;
+        left: 0;
+        top: 60px;
+        background: red;
+        height: 100%;
+        overflow: auto;
+        z-index: 98;
+      }
+      .db-menu-bar {
+        height: 100%;
+        flex-grow: 0;
+        width: 200px;
+      }
 
-.links {
-  padding-top: 15px;
-}
+      .db-content-wrapper {
+        width: 100%;
+        z-index: 97;
+        box-sizing: border-box;
+        padding: 60px 0px 0px 200px;
+      }
+        .db- content {
+          padding: 25px;
+        }
+        .db-content-inner {
+          padding: 30px 0px;
+        }
+
 </style>

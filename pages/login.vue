@@ -2,24 +2,24 @@
   <div id="login-page" @keyup.enter="login">
     <div class="login-form">
       <div class="input-group">
-        <div class="title">Element Dashboard</div>
+        <div class="title">農業資訊管理</div>
         <el-input
           :autofocus="true"
-          placeholder="请输入用户名"
+          placeholder="請輸入用戶名"
           icon="time"
           v-model="username">
         </el-input>
       </div>
       <div class="input-group">
         <el-input
-          placeholder="请输入密码"
+          placeholder="請輸入密碼"
           type="password"
           icon="time"
           v-model="password">
         </el-input>
       </div>
       <div class="input-group">
-        <label>记住我？</label>
+        <label>記住我？</label>
         <el-switch
           v-model="rememberMe"
           on-text=""
@@ -47,18 +47,21 @@ export default {
   },
   computed: {
     btnText() {
-      if (this.isBtnLoading) return '登录中...'
-      return '登录'
+      if (this.isBtnLoading) return '登錄中...'
+      return '登錄'
     }
+  },
+  mounted () {
+    console.log('####################login')
   },
   methods: {
     login() {
       if (!this.username) {
-        this.$message.error('请填写用户名！！！')
+        this.$message.error('請填寫用戶名！！！')
         return
       }
       if (!this.password) {
-        this.$message.error('请填写密码')
+        this.$message.error('請填寫密碼')
         return
       }
       let loginParams = {acc: this.username, pwd: this.password, type: 0}
@@ -94,7 +97,8 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
-    background: #efeeee;
+    // background: #efeeee;
+    background: url('~static/img/bg1.jpg') ;
   }
     .login-form {
       display: flex;
