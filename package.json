@@ -1,6 +1,6 @@
 {
   "name": "info-center",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Agri information collection center",
   "author": "hyper5798 <hyper5798@gmail.com>",
   "private": true,
@@ -15,7 +15,10 @@
   "dependencies": {
     "@nuxtjs/axios": "^5.3.1",
     "chart.js": "^2.7.2",
+    "egrid": "^1.1.0",
+    "el-table-plus": "^0.4.2",
     "element-ui": "^2.3.2",
+    "font-awesome": "^4.7.0",
     "nuxt": "^1.0.0",
     "vue-chartjs": "^3.3.1",
     "vue-i18n": "^7.6.0",
@@ -27,6 +30,8 @@
     "eslint": "^4.15.0",
     "eslint-friendly-formatter": "^3.0.0",
     "eslint-loader": "^1.7.1",
-    "eslint-plugin-vue": "^4.0.0"
+    "eslint-plugin-vue": "^4.0.0",
+    "node-sass": "^4.8.3",
+    "sass-loader": "^6.0.7"
   }
 }

@@ -4,6 +4,7 @@ import Router from 'vue-router'
 Vue.use(Router)
 
 const _6730eac7 = () => import('..\\pages\\login.vue' /* webpackChunkName: "pages_login" */).then(m => m.default || m)
+const _22cb846a = () => import('..\\pages\\find.vue' /* webpackChunkName: "pages_find" */).then(m => m.default || m)
 const _c4ed70a0 = () => import('..\\pages\\index.vue' /* webpackChunkName: "pages_index" */).then(m => m.default || m)
 
 
@@ -68,6 +69,11 @@ export function createRouter () {
 			path: "/login",
 			component: _6730eac7,
 			name: "login"
+		},
+		{
+			path: "/find",
+			component: _22cb846a,
+			name: "find"
 		},
 		{
 			path: "/",

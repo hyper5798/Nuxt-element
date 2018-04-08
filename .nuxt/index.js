@@ -14,6 +14,7 @@ import { createStore } from './store.js'
 /* Plugins */
 import nuxt_plugin_axios_3b0573a8 from 'nuxt_plugin_axios_3b0573a8' // Source: ./axios.js
 import nuxt_plugin_elementui_72a9ed1c from 'nuxt_plugin_elementui_72a9ed1c' // Source: ..\\plugins\\element-ui.js
+import nuxt_plugin_eltableplus_021dbbee from 'nuxt_plugin_eltableplus_021dbbee' // Source: ..\\plugins\\el-table-plus.js
 import nuxt_plugin_vuegooglemaps_5681e189 from 'nuxt_plugin_vuegooglemaps_5681e189' // Source: ..\\plugins\\vue-google-maps.js (ssr: false)
 
 
@@ -155,6 +156,7 @@ async function createApp (ssrContext) {
   
   if (typeof nuxt_plugin_axios_3b0573a8 === 'function') await nuxt_plugin_axios_3b0573a8(app.context, inject)
   if (typeof nuxt_plugin_elementui_72a9ed1c === 'function') await nuxt_plugin_elementui_72a9ed1c(app.context, inject)
+  if (typeof nuxt_plugin_eltableplus_021dbbee === 'function') await nuxt_plugin_eltableplus_021dbbee(app.context, inject)
   
   if (process.browser) { 
     if (typeof nuxt_plugin_vuegooglemaps_5681e189 === 'function') await nuxt_plugin_vuegooglemaps_5681e189(app.context, inject)

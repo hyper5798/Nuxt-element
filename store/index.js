@@ -6,7 +6,10 @@ export const state = () => ({
 })
 
 export const getters = {
-  authUser: state => state.authUser
+  authUser: state => state.authUser,
+  sidebar: state => state.sidebar,
+  mapList: state => state.mapList,
+  deviceList: state => state.deviceList
 }
 
 export const mutations = {
@@ -22,7 +25,7 @@ export const mutations = {
     // console.log('$ mutations SET_USER')
     state.authUser = user
   },
-  toggleSidebar (state) {
+  TOGGLE_SIDEBAR (state) {
     state.sidebar = !state.sidebar
   }
 }
@@ -37,6 +40,14 @@ export const actions = {
   fetch ({redirect, store}) {
     if (store.state.authUser) {
       redirect('/')
+    }
+  },
+  toggleSidebar ({ commit }) {
+    try {
+      console.log('$ store toggleSidebar')
+      commit('TOGGLE_SIDEBAR')
+    } catch (error) {
+      throw error
     }
   },
   set_map ({ commit }, list) {

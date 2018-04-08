@@ -1,74 +1,139 @@
 <template>
-  <el-row>
-    <el-button>默认按钮</el-button>
-    <el-button type="primary">主要按钮</el-button>
-    <el-button type="success">成功按钮</el-button>
-    <el-button type="info">信息按钮</el-button>
-    <el-button type="warning">警告按钮</el-button>
-    <el-button type="danger">危险按钮</el-button>
+  <el-row class="panel-group" :gutter="40">
+    <el-col :xs="12" :sm="12" :lg="6" class="card-panel-col">
+      <div class='card-panel' @click="handleSetLineChartData('newVisitis')">
+        <div class="card-panel-icon-wrapper icon-people">
+          <i class="fa fa-users fa-4x"></i>
+        </div>
+        <div class="card-panel-description">
+          <div class="card-panel-text">目前帳戶</div>
+          <h3>5</h3>
+        </div>
+      </div>
+    </el-col>
+    <el-col :xs="12" :sm="12" :lg="6" class="card-panel-col">
+      <div class="card-panel" @click="handleSetLineChartData('messages')">
+        <div class="card-panel-icon-wrapper icon-message">
+          <i class="fa fa-adjust fa-4x"></i>
+        </div>
+        <div class="card-panel-description">
+          <div class="card-panel-text">支援裝置類型</div>
+          <h3>3</h3>
+        </div>
+      </div>
+    </el-col>
+    <el-col :xs="12" :sm="12" :lg="6" class="card-panel-col">
+      <div class="card-panel" @click="handleSetLineChartData('purchases')">
+        <div class="card-panel-icon-wrapper icon-money">
+          <i class="fa fa-wifi fa-4x"></i>
+        </div>
+        <div class="card-panel-description">
+          <div class="card-panel-text">已啟用裝置</div>
+          <h3>3</h3>
+        </div>
+      </div>
+    </el-col>
+    <el-col :xs="12" :sm="12" :lg="6" class="card-panel-col">
+      <div class="card-panel" @click="handleSetLineChartData('shoppings')">
+        <div class="card-panel-icon-wrapper icon-shoppingCard">
+          <i class="fa fa-envelope fa-4x"></i>
+        </div>
+        <div class="card-panel-description">
+          <div class="card-panel-text">本周收到資訊</div>
+          <h3>2030</h3>
+        </div>
+      </div>
+    </el-col>
   </el-row>
 </template>
 
 <script>
+  // import CountTo from 'vue-count-to'
+
+  export default {
+    middleware: 'auth',
+    components: {
+      // CountTo
+    },
+    methods: {
+      handleSetLineChartData(type) {
+        this.$emit('handleSetLineChartData', type)
+      }
+    }
+  }
 </script>
 
-<style>
-    .el-dropdown-menu {
-      margin-top: 20px;
+<style rel="stylesheet/scss" lang="scss" scoped>
+  .panel-group {
+    margin-top: 18px;
+    .card-panel-col{
+      margin-bottom: 32px;
     }
-    .db-header {
-      width: 100%;
-      height: 60px;
-      background: #20A0FF;
-      padding: 13px 20px;
-      box-sizing: border-box;
-      color: #ffffff;
-      z-index: 99;
-      position: fixed;
-      left: 0;
-      top: 0;
-    }
-      .logo{
-        font-size: 2.4rem;
+    .card-panel {
+      height: 108px;
+      cursor: pointer;
+      font-size: 12px;
+      position: relative;
+      overflow: hidden;
+      color: #666;
+      background: #fff;
+      box-shadow: 4px 4px 40px rgba(0, 0, 0, .05);
+      border-color: rgba(0, 0, 0, .05);
+      &:hover {
+        .card-panel-icon-wrapper {
+          color: #fff;
+        }
+        .icon-people {
+          background: #40c9c6;
+        }
+        .icon-message {
+          background: #36a3f7;
+        }
+        .icon-money {
+          background: #f4516c;
+        }
+        .icon-shoppingCard {
+          background: #34bfa3
+        }
       }
-
-      .user-info {
+      .icon-people {
+        color: #40c9c6;
+      }
+      .icon-message {
+        color: #36a3f7;
+      }
+      .icon-money {
+        color: #f4516c;
+      }
+      .icon-shoppingCard {
+        color: #34bfa3
+      }
+      .card-panel-icon-wrapper {
+        float: left;
+        margin: 14px 0 0 14px;
+        padding: 16px;
+        transition: all 0.38s ease-out;
+        border-radius: 6px;
+      }
+      .card-panel-icon {
+        float: left;
+        font-size: 48px;
+      }
+      .card-panel-description {
         float: right;
-      }
-        img {
-          width: 25px;
-          height: 25px;
-          vertical-align: -7px;
-          margin: 0 0 0 10px;
-          cursor: pointer;
+        font-weight: bold;
+        margin: 26px;
+        margin-left: 0px;
+        .card-panel-text {
+          line-height: 18px;
+          color: rgba(0, 0, 0, 0.45);
+          font-size: 16px;
+          margin-bottom: 12px;
         }
-
-      .db-menu-wrapper {
-        position: fixed;
-        left: 0;
-        top: 60px;
-        background: red;
-        height: 100%;
-        overflow: auto;
-        z-index: 98;
-      }
-      .db-menu-bar {
-        height: 100%;
-        flex-grow: 0;
-        width: 200px;
-      }
-
-      .db-content-wrapper {
-        width: 100%;
-        z-index: 97;
-        box-sizing: border-box;
-        padding: 60px 0px 0px 200px;
-      }
-        .db- content {
-          padding: 25px;
+        .card-panel-num {
+          font-size: 20px;
         }
-        .db-content-inner {
-          padding: 30px 0px;
-        }
-
+      }
+    }
+  }
 </style>

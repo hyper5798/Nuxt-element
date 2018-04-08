@@ -28,6 +28,7 @@ module.exports = {
   },
   plugins: [
     { src: '~/plugins/element-ui.js' },
+    { src: '~/plugins/el-table-plus.js' },
     { src: '~/plugins/vue-google-maps.js', ssr: false }
   ],
   css: [
