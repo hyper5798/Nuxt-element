@@ -1,6 +1,6 @@
 {
   "name": "info-center",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Agri information collection center",
   "author": "hyper5798 <hyper5798@gmail.com>",
   "private": true,
@@ -19,6 +19,7 @@
     "el-table-plus": "^0.4.2",
     "element-ui": "^2.3.2",
     "font-awesome": "^4.7.0",
+    "js-cookie": "^2.2.0",
     "nuxt": "^1.0.0",
     "vue-chartjs": "^3.3.1",
     "vue-i18n": "^7.6.0",

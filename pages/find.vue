@@ -15,7 +15,7 @@
                     <el-button type="success" icon="el-icon-picture" @click="displayChart"></el-button>
                   </el-tooltip>
                   <el-tooltip class="item" effect="dark" content="輸出CSV" placement="top">
-                    <el-button type="info"                                                                                         icon="el-icon-download"></el-button>
+                    <el-button type="success" icon="el-icon-download" @click="exportCSV"></el-button>
                   </el-tooltip>
                 </el-button-group>
               </div>
@@ -119,6 +119,7 @@
       target: null,
       selectMap: null,
       keys: null,
+      values: null,
       total: 0,
       currentPage: 1,
       allData: [],
@@ -137,6 +138,13 @@
         this.isShowTable = false
         this.showChart(this.allData)
       },
+      exportCSV () {
+        if(this.keys === null) {
+          this.waring('尚未取得資料無法匯出CSV!')
+          return
+        }
+        this.csvExport ()
+      },
       handleRadioChange (value) {
         // alert(value)
         if (value === '1') {
@@ -148,7 +156,7 @@
           this.toFind()
         }
       },
-      handleChange(value) {
+      handleChange (value) {
         // console.log(value);
         this.target = value
         let fport = this.target[0]
@@ -173,13 +181,15 @@
           delete filedName.sign
         }
         this.keys = Object.keys(filedName)
+        this.values =  Object.values(filedName)
         // console.log('keys : ' + JSON.stringify(this.keys))
+        // console.log('values : ' + JSON.stringify(this.values))
         if (this.keys.includes('epc')) {
           this.keys = ['epc']
           myColumns.push({ name: filedName['epc'], prop: 'epc' })
         } else {
           for (let j = 0; j < this.keys.length; ++j) {
-            myColumns.splice(myColumns.length, 0, { name: filedName[this.keys[j]], prop: this.keys[j] })
+            myColumns.splice(myColumns.length, 0, { name: this.values[j], prop: this.keys[j] })
           }
         }
         // console.log('myColumns : ' + JSON.stringify(myColumns))
@@ -189,7 +199,7 @@
         this.total = 0
         this.toFind()
       },
-      handleSizeChange(val) {
+      handleSizeChange (val) {
         console.log(`每页 ${val} 条`)
       },
       handleCurrentChange(val) {
@@ -278,7 +288,7 @@
         }
         // console.log('dataArr : ' +JSON.stringify(dataArr))
         // console.log(JSON.stringify(mLables))
-        this.chartData = this.getChartData (mLables, this.keys, dataArr)
+        this.chartData = this.getChartData (mLables, this.values, dataArr)
         // console.log(test)
       },
       getChartData (time, keys, arr) {
@@ -318,6 +328,77 @@
           type: 'warning'
         });
       },
+      csvExport () {
+        if (this.allData === null) {
+          this.waring('尚未取得資料無法匯出CSV!')
+        }
+        var data = this.convertToCSV()
+        console.log('data : ' + JSON.stringify(data))
+        console.log(typeof this.start + ' : ' + this.start)
+        console.log(typeof this.end + ' : ' + this.end)
+        var d1 = new Date(this.start)
+        var d2 = new Date(this.end)
+        console.log('d1.getTime()  = ' + d1.getTime())
+        console.log('d2.getTime()  = ' + d2.getTime())
+        var filename = this.target[1]
+        if(this.start === '' && this.start === '') {
+          filename = filename + '.csv'
+        } else if (d1.getTime() === d2.getTime() ) {
+          console.log('this.info.from === this.info.to')
+          filename = filename + this.end + '.csv'
+        } else {
+          console.log('this.info.from !== this.info.to')
+          filename = filename + this.start + '_' + this.end + '.csv'
+        }
+        this.saveContent(data, filename)
+      },
+      convertToCSV () {
+        let values = this.values
+        let objArray = this.allData
+        let array = typeof objArray !== 'object' ? JSON.parse(objArray) : objArray
+        var str = ''
+        var line = ''
+        var target = ['項目', '裝置識別欄', '日期']
+        target = target.concat(this.values)
+        console.log('target : ' + JSON.stringify(target))
+        // For title
+        for (var index in target) {
+          if (line !== '') line += ','
+          line += target[index]
+        }
+        str += line + '\r\n'
+        for (var i = 0; i < array.length; i++) {
+          var line2 = '' + (i + 1)
+          for (var j in array[i]) {
+            if (line2 !== '') line2 += ','
+            if (typeof array[i][j] === 'object') {
+              line2 += this.getObjectStr(array[i][j])
+            } else {
+              line2 += array[i][j]
+            }
+          }
+          str += line2 + '\r\n'
+        }
+        // console.log(' str :' + str)
+        str = encodeURIComponent(str)
+        return str
+      },
+      getObjectStr (obj) {
+        var keys = Object.keys(obj)
+        var arr = []
+        for (var i = 0; i < keys.length; i++) {
+          arr.push(obj[keys[i]])
+        }
+        var str = arr.toString()
+        return str
+      },
+      saveContent (fileContents, fileName) {
+        var link = document.createElement('a')
+        console.log('$ fileMame : ' + fileName)
+        link.download = fileName
+        link.href = 'data:text/csv;charset=utf-8,\ufeff' + fileContents
+        link.click()
+      }
     },
     asyncData: async function ({app, error, store}) {
       try {
