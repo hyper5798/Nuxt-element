@@ -9,31 +9,24 @@
                 <span>裝置查詢</span>
                 <el-button-group style="float: right;">
                   <el-tooltip class="item" effect="dark" content="裝置列表" placement="top">
-                    <el-button type="primary" icon="el-icon-tickets"></el-button>
+                    <el-button type="primary" icon="el-icon-tickets" @click="displayTable"></el-button>
                   </el-tooltip>
                   <el-tooltip class="item" effect="dark" content="折線圖" placement="top">
-                    <el-button type="success" icon="el-icon-picture"></el-button>
+                    <el-button type="success" icon="el-icon-picture" @click="displayChart"></el-button>
                   </el-tooltip>
                   <el-tooltip class="item" effect="dark" content="輸出CSV" placement="top">
                     <el-button type="info"                                                                                         icon="el-icon-download"></el-button>
                   </el-tooltip>
-
-
-
                 </el-button-group>
-
-
               </div>
               <div class="text item">
                 <el-row>
                   <el-col :span="12">
                     <h5><span class="demonstration">選擇裝置</span></h5>
                   </el-col>
-                  <el-col :span="12">
-                    <span v-if="target"><h3>{{selectMap.typeName}} </h3></span>
-                  </el-col>
                 </el-row>
                 <el-cascader
+                  class="deviceSelecter"
                   expand-trigger="hover"
                   :options="options"
                   v-model="target"
@@ -73,7 +66,7 @@
       </el-col>
       <el-col :xs="24" :sm="24" :md="16" :lg="17" :xl="18">
         <div class="BG-Average-Copy">
-          <div class="bg-content">
+          <div v-show="isShowTable" class="bg-content">
             <event-table
               :data="data"
               :columns="columns"
@@ -87,6 +80,9 @@
               :total="total">
             </el-pagination>
           </div>
+          <div v-show="!isShowTable" class="bg-content">
+            <event-chart :chartData="chartData"></event-chart>
+          </div>
         </div>
       </el-col>
     </el-row>
@@ -98,10 +94,14 @@
   import EventTable from '~/components/table/EventTable.vue'
   import Data from '~/components/table/data'
   import { toYMD } from '~/tools/time'
+  import EventChart from '~/components/charts/EventChart'
+  import { emptyData, COLORS, chartColors } from '~/components/charts/chart-data'
+
   export default {
     middleware: 'auth',
     components : {
-      EventTable
+      EventTable,
+      EventChart
     },
     data: () => ({
       labelPosition: 'right',
@@ -124,9 +124,19 @@
       allData: [],
       size: 10,
       sort: 'desc',
-      isFindable: false
+      isFindable: false,
+      isShowTable: false,
+      chartData: null,
+      noneInfoLength: 2
     }),
     methods: {
+      displayTable () {
+        this.isShowTable = true
+      },
+      displayChart () {
+        this.isShowTable = false
+        this.showChart(this.allData)
+      },
       handleRadioChange (value) {
         // alert(value)
         if (value === '1') {
@@ -226,7 +236,7 @@
             let device = data[i]
             let tmp = {
               macAddr: device.macAddr,
-              data: device.data,
+              // data: device.data,
               date: device.date
             }
             for (let j = 0; j < this.keys.length; ++j) {
@@ -244,6 +254,62 @@
             this.data = this.allData
           }
         })
+      },
+      showChart (data) {
+        console.log(data)
+        if(data === null || data.length === 0) {
+          return;
+        }
+        var myData = emptyData
+        // console.log(myData)
+        var mLables = []
+        var dataArr = []
+        for (let k = 0; k < this.keys.length; ++k) {
+          dataArr[k] = []
+        }
+        for (let i = 0; i < data.length; ++i) {
+          let obj = data[i]
+          // console.log(obj)
+          for (let j = 0; j < this.keys.length; ++j) {
+            // console.log( this.keys[j])
+            dataArr[j].push(obj[this.keys[j]])
+          }
+          mLables.push(new Date(obj.date)) // Transfer date string to date
+        }
+        // console.log('dataArr : ' +JSON.stringify(dataArr))
+        // console.log(JSON.stringify(mLables))
+        this.chartData = this.getChartData (mLables, this.keys, dataArr)
+        // console.log(test)
+      },
+      getChartData (time, keys, arr) {
+        var myDatasets = []
+        var colorNames = Object.keys(chartColors)
+        for (let i = 0; i < keys.length; ++i) {
+          let colorName = colorNames[i + 2]
+          console.log('colorName : ' + colorName)
+          let newColor = chartColors[colorName]
+          console.log('colorName : ' + newColor)
+          let newData = this.getNewDatasets(keys[i],arr[i], newColor)
+          console.log(newData)
+          myDatasets.push(newData)
+        }
+        var dataTemp = {
+          labels: time,
+          datasets: myDatasets
+        }
+        return dataTemp
+      },
+      getNewDatasets (label, arr, newColor) {
+        var newDataset = {
+          label: label,
+          borderColor: newColor,
+          backgroundColor: newColor,
+          data: arr
+        }
+        return newDataset
+      },
+      color: function(index) {
+        return COLORS[index % COLORS.length];
       },
       waring (msg) {
         this.$notify({
@@ -297,35 +363,6 @@
 </script>
 
 <style>
-  .BG-Average {
-    width: auto;
-    height: auto;
-    border-radius: 10px;
-  // background-color: #4d4d4d;
-    background-color: #bfbfbf;
-    padding: 5px 5px 5px 5px;
-    margin-bottom: 20px;
-  }
-  .BG-Average-Copy {
-    width: auto;
-    height: 550px;
-    border-radius: 10px;
-  // background-color: #4d4d4d;
-    background-color: #bfbfbf;
-    padding: 5px 5px 5px 5px;
-  }
-  .bg-purple {
-    background: #f2f2f2 ;
-    border-radius: 5px;
-    padding: 5px 5px 5px 5px;
-  }
-  .bg-content {
-    width: auto;
-    height: 600px;
-    background: #f2f2f2 ;
-    border-radius: 5px;
-    padding: 5px 5px 5px 5px;
-  }
   .clearfix:before,
   .clearfix:after {
     display: table;
@@ -333,5 +370,8 @@
   }
   .clearfix:after {
     clear: both
+  }
+  .deviceSelecter {
+    margin-top: 20px;
   }
 </style>

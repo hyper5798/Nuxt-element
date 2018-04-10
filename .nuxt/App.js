@@ -5,6 +5,8 @@ import '..\\node_modules\\element-ui\\lib\\theme-chalk\\reset.css'
 
 import '..\\node_modules\\element-ui\\lib\\theme-chalk\\index.css'
 
+import '..\\assets\\main.css'
+
 
 let layouts = {
 

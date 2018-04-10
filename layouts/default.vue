@@ -7,12 +7,8 @@
           <el-button class="barBtn" type="info" icon="el-icon-tickets" circle @click="toggleSideBar"></el-button>
         </div>
         <el-row class="navbar-right">
-          <el-button icon="el-icon-search" circle></el-button>
           <el-button type="primary" icon="el-icon-edit" circle></el-button>
-          <el-button type="success" icon="el-icon-check" circle></el-button>
-          <el-button type="info" icon="el-icon-message" circle></el-button>
-          <el-button type="warning" icon="el-icon-star-off" circle></el-button>
-          <el-button type="danger" icon="el-icon-delete" circle></el-button>
+          {{authUser.userInfo.name}}
         </el-row>
 
       </el-header>
@@ -25,6 +21,7 @@
             <template slot="title"><i class="el-icon-message"></i>导航一</template>
             <el-menu-item index="/"><i class="el-icon-menu"></i>首頁</el-menu-item>
             <el-menu-item index="/find"><i class="el-icon-search"></i>查詢</el-menu-item>
+            <el-menu-item index="/chart"><i class="el-icon-picture-outline"></i>繪圖</el-menu-item>
           </el-menu>
         </el-aside>
         <el-main>
@@ -47,6 +44,7 @@
     }),
     computed: {
       ...mapGetters([
+        'authUser',
         'sidebar'
       ])
     },
@@ -69,7 +67,7 @@
     height: 100%;
     border: 1px;
     solid: #eee;
-    background-color:#d9d9d9;
+    background-color:#e6e6e6;
   }
   .header {
     background-color:#409EFF;

@@ -1,0 +1,34 @@
+.BG-Average {
+  width: auto;
+  height: auto;
+  border-radius: 10px;
+// background-color: #4d4d4d;
+  background-color: #bfbfbf;
+  padding: 5px 5px 5px 5px;
+  margin-bottom: 20px;
+}
+.BG-Average-Copy {
+  width: auto;
+  height: 550px;
+  border-radius: 10px;
+// background-color: #4d4d4d;
+  background-color: #bfbfbf;
+  padding: 5px 5px 5px 5px;
+}
+.bg-white {
+  background: #ffffff ;
+  border-radius: 5px;
+  padding: 5px 5px 5px 5px;
+}
+.bg-purple {
+  background: #f2f2f2 ;
+  border-radius: 5px;
+  padding: 5px 5px 5px 5px;
+}
+.bg-content {
+  width: auto;
+  height: 540px;
+  background: #f2f2f2 ;
+  border-radius: 5px;
+  padding: 5px 5px 5px 5px;
+}

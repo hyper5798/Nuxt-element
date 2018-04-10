@@ -33,7 +33,8 @@ module.exports = {
   ],
   css: [
     'element-ui/lib/theme-chalk/reset.css',
-    'element-ui/lib/theme-chalk/index.css'
+    'element-ui/lib/theme-chalk/index.css',
+    '~/assets/main.css'
   ],
   loading: { color: '#3B8070' },
   modules: [
