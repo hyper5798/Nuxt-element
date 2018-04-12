@@ -1,5 +1,5 @@
 export const state = () => ({
-  sidebar: false,
+  sidebar: true,
   authUser: null,
   mapList: null,
   deviceList: null

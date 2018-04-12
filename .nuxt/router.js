@@ -6,6 +6,7 @@ Vue.use(Router)
 const _0ee5b6f6 = () => import('..\\pages\\login.vue' /* webpackChunkName: "pages_login" */).then(m => m.default || m)
 const _3613afbc = () => import('..\\pages\\find.vue' /* webpackChunkName: "pages_find" */).then(m => m.default || m)
 const _58bf462a = () => import('..\\pages\\chart.vue' /* webpackChunkName: "pages_chart" */).then(m => m.default || m)
+const _672bf319 = () => import('..\\pages\\device.vue' /* webpackChunkName: "pages_device" */).then(m => m.default || m)
 const _453e13df = () => import('..\\pages\\index.vue' /* webpackChunkName: "pages_index" */).then(m => m.default || m)
 
 
@@ -80,6 +81,11 @@ export function createRouter () {
 			path: "/chart",
 			component: _58bf462a,
 			name: "chart"
+		},
+		{
+			path: "/device",
+			component: _672bf319,
+			name: "device"
 		},
 		{
 			path: "/",

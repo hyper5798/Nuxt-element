@@ -4,7 +4,21 @@
       <el-header class="header">
         <div class="navbar-left">
           <span class="mark">Gemtek</span>
-          <el-button class="barBtn" type="info" icon="el-icon-tickets" circle @click="toggleSideBar"></el-button>
+          <el-button class="barBtn"
+                     icon="el-icon-tickets"
+                     circle
+                     @click="toggleSideBar">
+          </el-button>
+          <el-button v-if="!isCollapse"
+                     icon="el-icon-arrow-left"
+                     circle
+                     @click="miniMenu">
+          </el-button>
+          <el-button v-else
+                       icon="el-icon-arrow-right"
+                       circle
+                       @click="maxMenu">
+          </el-button>
         </div>
         <el-row class="navbar-right">
           <el-button type="primary" icon="el-icon-edit" circle></el-button>
@@ -13,15 +27,25 @@
 
       </el-header>
       <el-container>
-        <el-aside v-if="sidebar" width="200px" class="aside">
-          <el-menu :default-active="$route.path"
-                   theme="dark"
-                   background-color="#f2f2f2"
-                   router>
-            <template slot="title"><i class="el-icon-message"></i>导航一</template>
-            <el-menu-item index="/"><i class="el-icon-menu"></i>首頁</el-menu-item>
-            <el-menu-item index="/find"><i class="el-icon-search"></i>查詢</el-menu-item>
-            <el-menu-item index="/device"><i class="el-icon-picture-outline"></i></el-menu-item>
+        <el-aside v-if="sidebar" :width="{'60px': !isCollapse, '200px': isCollapse}" class="aside">
+          <el-menu class="el-menu-vertical-demo"
+                   :default-active="$route.path"
+                   router
+                   @open="handleOpen"
+                   @close="handleClose"
+                   :collapse="isCollapse">
+            <el-menu-item index="/">
+              <i class="el-icon-menu"></i>
+              <span slot="title">首頁</span>
+            </el-menu-item>
+            <el-menu-item index="/find">
+              <i class="el-icon-search"></i>
+              <span slot="title">查詢</span>
+            </el-menu-item>
+            <el-menu-item index="/device">
+              <i class="el-icon-edit"></i>
+              <span slot="title">裝置</span>
+            </el-menu-item>
           </el-menu>
         </el-aside>
         <el-main>
@@ -40,7 +64,8 @@
   import { mapGetters } from 'vuex'
   export default {
     data: () => ({
-      opened: true
+      opened: false,
+      isCollapse: true
     }),
     computed: {
       ...mapGetters([
@@ -49,6 +74,18 @@
       ])
     },
     methods: {
+      miniMenu () {
+        this.isCollapse = true
+      },
+      maxMenu () {
+        this.isCollapse = false
+      },
+      handleOpen (key, keyPath) {
+        console.log(key, keyPath);
+      },
+      handleClose (key, keyPath) {
+        console.log(key, keyPath);
+      },
       toggleSideBar() {
         this.$store.dispatch('toggleSidebar')
       },
@@ -75,6 +112,10 @@
     line-height: 60px;
     text-align: right;
     font-size: 18px;
+  }
+  .el-menu-vertical-demo:not(.el-menu--collapse) {
+    width: 200px;
+    min-height: 600px;
   }
   .mark {
     mer

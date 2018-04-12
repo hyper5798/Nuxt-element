@@ -1,5 +1,7 @@
 <template>
-  <button @click="todo">{{ row._edit ? 'Done' : 'Edit' }}</button>
+  <button @click="todo">
+    {{ row._edit ? '儲存' : '編輯' }}
+  </button>
 </template>
 
 <script>

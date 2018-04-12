@@ -66,7 +66,7 @@ export default {
     { name: '裝置識別碼', prop: 'macAddr' },
     { name: '裝置名稱', prop: 'name' },
     { name: '啟用狀態', prop: 'active_status' },
-    { name: '啟用時間', prop: 'active_time' },
+    // { name: '啟用時間', prop: 'active_time' },
     { name: '裝置狀態', prop: 'status' },
     { name: '裝置類型', prop: 'type' }
   ]
