@@ -12,7 +12,7 @@ import { setContext, getLocation, getRouteData } from './utils'
 import { createStore } from './store.js'
 
 /* Plugins */
-import nuxt_plugin_axios_97d11646 from 'nuxt_plugin_axios_97d11646' // Source: ./axios.js
+import nuxt_plugin_axios_99764308 from 'nuxt_plugin_axios_99764308' // Source: ./axios.js
 import nuxt_plugin_elementui_72a9ed1c from 'nuxt_plugin_elementui_72a9ed1c' // Source: ..\\plugins\\element-ui.js
 import nuxt_plugin_eltableplus_021dbbee from 'nuxt_plugin_eltableplus_021dbbee' // Source: ..\\plugins\\el-table-plus.js
 import nuxt_plugin_vuegooglemaps_5681e189 from 'nuxt_plugin_vuegooglemaps_5681e189' // Source: ..\\plugins\\vue-google-maps.js (ssr: false)
@@ -154,7 +154,7 @@ async function createApp (ssrContext) {
 
   // Plugin execution
   
-  if (typeof nuxt_plugin_axios_97d11646 === 'function') await nuxt_plugin_axios_97d11646(app.context, inject)
+  if (typeof nuxt_plugin_axios_99764308 === 'function') await nuxt_plugin_axios_99764308(app.context, inject)
   if (typeof nuxt_plugin_elementui_72a9ed1c === 'function') await nuxt_plugin_elementui_72a9ed1c(app.context, inject)
   if (typeof nuxt_plugin_eltableplus_021dbbee === 'function') await nuxt_plugin_eltableplus_021dbbee(app.context, inject)
   

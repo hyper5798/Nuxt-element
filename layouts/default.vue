@@ -21,7 +21,7 @@
             <template slot="title"><i class="el-icon-message"></i>导航一</template>
             <el-menu-item index="/"><i class="el-icon-menu"></i>首頁</el-menu-item>
             <el-menu-item index="/find"><i class="el-icon-search"></i>查詢</el-menu-item>
-            <el-menu-item index="/chart"><i class="el-icon-picture-outline"></i>繪圖</el-menu-item>
+            <el-menu-item index="/device"><i class="el-icon-picture-outline"></i></el-menu-item>
           </el-menu>
         </el-aside>
         <el-main>
