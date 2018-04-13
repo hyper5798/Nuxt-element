@@ -126,7 +126,7 @@
       size: 10,
       sort: 'desc',
       isFindable: false,
-      isShowTable: false,
+      isShowTable: true,
       chartData: null,
       noneInfoLength: 2
     }),
@@ -136,7 +136,7 @@
       },
       displayChart () {
         this.isShowTable = false
-        this.showChart(this.allData)
+        // this.showChart(this.allData)
       },
       exportCSV () {
         if(this.keys === null) {
@@ -210,7 +210,7 @@
 
         this.data = this.allData.slice(s, e)
       },
-      toFind () {
+      async toFind () {
         if (this.target === null) {
           this.waring ('尚未選擇裝置!')
           this.isFindable = false
@@ -237,7 +237,7 @@
         params.sort = this.sort
         var url = 'http://localhost:8000/device/v1/event'
         var myData = []
-        getEventList(this, url, params).then(res => {
+        await getEventList(this, url, params).then(res => {
           // console.log('list ' + JSON.stringify(res.data)
           var data = res.data.data
           this.total = data.length
@@ -263,7 +263,9 @@
           } else {
             this.data = this.allData
           }
+          this.showChart(this.allData)
         })
+        this.showChart(this.allData)
       },
       showChart (data) {
         console.log(data)
@@ -314,6 +316,7 @@
           label: label,
           borderColor: newColor,
           backgroundColor: newColor,
+          fill: false,
           data: arr
         }
         return newDataset

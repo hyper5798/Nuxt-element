@@ -1,14 +1,14 @@
 <template>
   <!--<div class="BG-Average">-->
     <div class="bg-white">
-      <line-chart :width="300" :height="300" :chartData="chartData" :options="options"/>
+      <line-chart width="500" height="300" :chartData="chartData" :options="options"/>
     </div>
   <!--</div>-->
 </template>
 
 <script>
   import LineChart from './LineChart'
-  import { chartColors, COLORS, options } from './chart-data'
+  import { chartColors, COLORS, options, options1 } from './chart-data'
   var colorNames = Object.keys(chartColors);
   export default {
     components : {
@@ -19,53 +19,7 @@
     },
     data () {
       return {
-        options: {
-          maintainAspectRatio: false,
-          title:{
-            text: "Chart.js Time Scale"
-          },
-          tooltips: {
-            mode: 'index',
-          },
-          hover: {
-            mode: 'index'
-          },
-          scales: {
-            xAxes: [{
-              type: "time",
-              time: {
-                parser: 'labels',
-                // round: 'day'
-                tooltipFormat: 'll HH:mm'
-              },
-              scaleLabel: {
-                display: true,
-                labelString: 'Date'
-              }
-            }, ],
-            yAxes: [{
-              ticks: {
-                beginAtZero: false,
-                maxTicksLimit: 10,
-                stepSize: 5
-              },
-              scaleLabel: {
-                display: true,
-                labelString: 'value'
-              }
-            }]
-          },
-          elements: {
-            line: {
-              borderWidth: 5
-            },
-            point: {
-              radius: 4,
-              hitRadius: 5,
-              hoverRadius: 4
-            }
-          }
-        }
+        options: options
       }
     },
     methods : {

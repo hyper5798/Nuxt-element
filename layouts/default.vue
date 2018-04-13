@@ -27,7 +27,7 @@
 
       </el-header>
       <el-container>
-        <el-aside v-if="sidebar" :width="{'60px': !isCollapse, '200px': isCollapse}" class="aside">
+        <el-aside v-if="sidebar" width="{'60px': !isCollapse, '200px': isCollapse}" class="aside">
           <el-menu class="el-menu-vertical-demo"
                    :default-active="$route.path"
                    router
@@ -46,6 +46,10 @@
               <i class="el-icon-edit"></i>
               <span slot="title">裝置</span>
             </el-menu-item>
+            <!--<el-menu-item index="/test">
+              <i class="el-icon-edit"></i>
+              <span slot="title">測試</span>
+            </el-menu-item>-->
           </el-menu>
         </el-aside>
         <el-main>

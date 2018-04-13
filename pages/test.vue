@@ -50,11 +50,7 @@
         <div class="BG-Average-Copy">
           <div class="bg-content">
             # Edit device
-            <device-table :list="currentList"
-                          @edit-device="onUpdateDevice"
-                          @del-device="onDeleteDevice">
-
-            </device-table>
+            <edit-table :data="data" :columns="columns"></edit-table>
           </div>
         </div>
       </el-col>
@@ -63,27 +59,21 @@
 </template>
 
 <script>
-  import { getMapList, getDeviceList , toUpdate, toDelete} from '~/tools/api'
-  import DeviceTable from '~/components/table/DeviceTable.vue'
+  import { getMapList, getDeviceList, getEventList } from '~/tools/api'
+  import EditTable from '~/components/table/EditTable.vue'
   import Data from '~/components/table/data'
   import { toYMD } from '~/tools/time'
-  import { mapGetters } from 'vuex'
+  import { emptyData, COLORS, chartColors } from '~/components/charts/chart-data'
 
   export default {
     middleware: 'auth',
     components : {
-      DeviceTable
-    },
-    computed: {
-      ...mapGetters([
-        'authUser'
-      ])
+      EditTable
     },
     data: () => ({
       data: this.allDevice,
       columns: Data.columns2,
       isShowAdd: false,
-      currentList: null,
       allDevice: null,
       sortDevice: null
       /* labelPosition: 'right',
@@ -113,76 +103,17 @@
       noneInfoLength: 2 */
     }),
     methods: {
-      displayEditCard () {
+      displayEditCard() {
         this.isShowAdd = false
       },
-      displayAddCard () {
+      displayAddCard() {
         this.isShowAdd = true
       },
-      selectAllDevice () {
-        if (this.allDevice) {
-          this.currentList = this.allDevice
-        }
+      selectAllDevice() {
       },
-      menuSelect (value) {
+      menuSelect(value) {
         console.log('menuSelect : ' + typeof(value) + value)
-        if (this.allDevice === null) {
-          // console.log('this.currentList : ' + JSON.stringify(this.currentList))
-          this.allDevice = JSON.parse(JSON.stringify(this.currentList))
-          console.log('this.allDevice : ' + JSON.stringify(this.allDevice))
-          var tmp = {}
-          for (let i=0; i < this.allDevice.length ; ++i) {
-            let type = this.allDevice[i].fport
-            if (tmp[type] === undefined) {
-              tmp[type] = []
-            }
-            tmp[type].push(this.allDevice[i])
-            console.log('tmp : ' + JSON.stringify(tmp))
-          }
-          this.sortDevice = tmp
-        }
-        this.currentList = this.sortDevice[value]
-      },
-      async onUpdateDevice (device) {
-        var url = 'http://localhost:8000/device/v1/device'
-        var json = {token: this.authUser.authToken, d: device.device_mac, name: device.device_name}
-        // alert(JSON.stringify(json))
-        await toUpdate(this, url, json).then(result => {
-          // console.log(result)
-          if (result.responseCode === '000') {
-            this.$notify({
-              title: '成功',
-              message: '更新裝置成功',
-              type: 'success'
-            })
-          } else {
-            this.$notify({
-              title: '警告',
-              message: result.responseMsg,
-              type: 'warning'
-            })
-          }
-        })
-      },
-      async onDeleteDevice (device) {
-        var url = 'http://localhost:8000/device/v1/device'
-        var json = {token: this.authUser.authToken, delDeviceId: device.deviceId}
-        // alert(JSON.stringify(json))
-        await toDelete(this, url, json).then(data => {
-          if (result.responseCode === '000') {
-            this.$notify({
-              title: '成功',
-              message: '更新裝置成功',
-              type: 'success'
-            })
-          } else {
-            this.$notify({
-              title: '警告',
-              message: result.responseMsg,
-              type: 'warning'
-            })
-          }
-        })
+        this.data = this.sortDevice[value]
       }
     },
     asyncData: async function ({app, error, store}) {
@@ -195,11 +126,34 @@
           getMapList(app, url, {token: token}).then(res => res.data),
           getDeviceList(app, url2, {token: token}).then(res => res.data)
         ])
-
+        var deviceList = list2.mList
+        var mData = []
+        var mDevice = {}
+        for (let i = 0; i < deviceList.length; ++i) {
+          let device = deviceList[i]
+          let tmp = {
+            macAddr: device.device_mac,
+            name: device.device_name,
+            active_status: device.device_status,
+            active_time: device.device_active_time,
+            status: device.statusDesc,
+            type: device.fport
+          }
+          console.log('tmp : ' + JSON.stringify(tmp))
+          mData.push(tmp)
+          if (mDevice[device.fport] === undefined) {
+            mDevice[device.fport] = []
+          }
+          mDevice[device.fport].push(tmp)
+          console.log(mData)
+          console.log(mDevice)
+        }
         store.dispatch('set_map', list.data)
         return {
           mapList: list.data,
-          currentList: list2.mList,
+          deviceList: list2.mList,
+          allData: mData,
+          sortDevice: mDevice
         }
       } catch (err) {
         error(err)

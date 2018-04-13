@@ -19,12 +19,12 @@
         </el-input>
       </div>
       <div class="input-group">
-        <label>記住我？</label>
+        <!--<label>記住我？</label>
         <el-switch
           v-model="rememberMe"
           on-text=""
           off-text="">
-        </el-switch>
+        </el-switch>-->
       </div>
       <div class="input-group">
         <el-button @click.native="login" type="primary" :loading="isBtnLoading">{{btnText}}</el-button>

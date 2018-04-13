@@ -62,4 +62,53 @@ export const options = {
 };
 
 
+export const options1 =  {
+  maintainAspectRatio: false,
+  title:{
+    text: "Chart.js Time Scale"
+  },
+  tooltips: {
+    mode: 'index',
+  },
+  hover: {
+    mode: 'index'
+  },
+  scales: {
+    xAxes: [{
+      type: "time",
+      time: {
+        parser: 'labels',
+        // round: 'day'
+        tooltipFormat: 'll HH:mm'
+      },
+      scaleLabel: {
+        display: true,
+        labelString: 'Date'
+      }
+    }, ],
+    yAxes: [{
+      ticks: {
+        beginAtZero: false,
+        maxTicksLimit: 10,
+        stepSize: 5
+      },
+      scaleLabel: {
+        display: true,
+        labelString: 'value'
+      }
+    }]
+  },
+  elements: {
+    line: {
+      borderWidth: 5
+    },
+    point: {
+      radius: 4,
+      hitRadius: 5,
+      hoverRadius: 4
+    }
+  }
+};
+
+
 
