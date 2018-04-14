@@ -46,6 +46,10 @@
               <i class="el-icon-edit"></i>
               <span slot="title">裝置</span>
             </el-menu-item>
+            <el-menu-item index="/account">
+              <i class="fa fa-users"></i>
+              <span slot="title">帳戶</span>
+            </el-menu-item>
             <!--<el-menu-item index="/test">
               <i class="el-icon-edit"></i>
               <span slot="title">測試</span>
