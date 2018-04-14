@@ -298,11 +298,11 @@
         var colorNames = Object.keys(chartColors)
         for (let i = 0; i < keys.length; ++i) {
           let colorName = colorNames[i + 2]
-          console.log('colorName : ' + colorName)
+          // console.log('colorName : ' + colorName)
           let newColor = chartColors[colorName]
-          console.log('colorName : ' + newColor)
+          // console.log('colorName : ' + newColor)
           let newData = this.getNewDatasets(keys[i],arr[i], newColor)
-          console.log(newData)
+          // console.log(newData)
           myDatasets.push(newData)
         }
         var dataTemp = {
@@ -336,21 +336,21 @@
           this.waring('尚未取得資料無法匯出CSV!')
         }
         var data = this.convertToCSV()
-        console.log('data : ' + JSON.stringify(data))
-        console.log(typeof this.start + ' : ' + this.start)
-        console.log(typeof this.end + ' : ' + this.end)
+        // console.log('data : ' + JSON.stringify(data))
+        // console.log(typeof this.start + ' : ' + this.start)
+        // console.log(typeof this.end + ' : ' + this.end)
         var d1 = new Date(this.start)
         var d2 = new Date(this.end)
-        console.log('d1.getTime()  = ' + d1.getTime())
-        console.log('d2.getTime()  = ' + d2.getTime())
+        // console.log('d1.getTime()  = ' + d1.getTime())
+        // console.log('d2.getTime()  = ' + d2.getTime())
         var filename = this.target[1]
         if(this.start === '' && this.start === '') {
           filename = filename + '.csv'
         } else if (d1.getTime() === d2.getTime() ) {
-          console.log('this.info.from === this.info.to')
+          // console.log('this.info.from === this.info.to')
           filename = filename + this.end + '.csv'
         } else {
-          console.log('this.info.from !== this.info.to')
+          // console.log('this.info.from !== this.info.to')
           filename = filename + this.start + '_' + this.end + '.csv'
         }
         this.saveContent(data, filename)
@@ -363,7 +363,7 @@
         var line = ''
         var target = ['項目', '裝置識別欄', '日期']
         target = target.concat(this.values)
-        console.log('target : ' + JSON.stringify(target))
+        // console.log('target : ' + JSON.stringify(target))
         // For title
         for (var index in target) {
           if (line !== '') line += ','
@@ -397,7 +397,7 @@
       },
       saveContent (fileContents, fileName) {
         var link = document.createElement('a')
-        console.log('$ fileMame : ' + fileName)
+        // console.log('$ fileMame : ' + fileName)
         link.download = fileName
         link.href = 'data:text/csv;charset=utf-8,\ufeff' + fileContents
         link.click()

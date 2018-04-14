@@ -1,7 +1,7 @@
 <template>
   <!--<div class="BG-Average">-->
     <div class="bg-white">
-      <line-chart width="500" height="300" :chartData="chartData" :options="options"/>
+      <line-chart :width="500" :height="300" :chartData="chartData" :options="options"/>
     </div>
   <!--</div>-->
 </template>
@@ -19,7 +19,7 @@
     },
     data () {
       return {
-        options: options
+        options: options1
       }
     },
     methods : {
@@ -93,3 +93,10 @@
     }
   }
 </script>
+
+<style>
+  .chart-container {
+    width: 600px;
+    height:300px
+  }
+</style>

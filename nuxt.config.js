@@ -56,7 +56,8 @@ module.exports = {
       '~/plugins/element-ui.js',
       '~/plugins/vue-google-maps.js',
       'chart.js',
-      'vue-chartjs'
+      'vue-chartjs',
+      'xlsx'
     ],
     extractCSS: true,
     extend (config, { isDev, isClient }) {

@@ -27,43 +27,52 @@ export const emptyData = {
 };
 
 export const options = {
-  title:{
-    text: "Chart.js Time Scale"
-  },
-  tooltips: {
-    mode: 'index',
-  },
-  hover: {
-    mode: 'index'
+  maintainAspectRatio: false,
+  legend: {
+    display: false
   },
   scales: {
     xAxes: [{
-      type: "time",
-      time: {
-        parser: 'labels',
-        // round: 'day'
-        tooltipFormat: 'll HH:mm'
-      },
-      scaleLabel: {
+      gridLines: {
         display: true,
-        labelString: 'Date'
+        color: 'gray',
+        drawOnChartArea: true
+      },
+      type: 'time',
+      time: {
+        displayFormats: {
+          'hour': 'MM/DD HH',
+          'day': 'MM/DD'
+        }
       }
-    }, ],
+    }],
     yAxes: [{
       ticks: {
-        beginAtZero: true,
+        beginAtZero: false,
+        maxTicksLimit: 5,
+        stepSize: 1
       },
-      scaleLabel: {
+      gridLines: {
         display: true,
-        labelString: 'value'
+        color: 'gray',
+        drawOnChartArea: true
       }
     }]
+  },
+  elements: {
+    line: {
+      borderWidth: 5
+    },
+    point: {
+      radius: 4,
+      hitRadius: 5,
+      hoverRadius: 4
+    }
   }
 };
 
-
 export const options1 =  {
-  maintainAspectRatio: false,
+  responsive:true,
   title:{
     text: "Chart.js Time Scale"
   },
@@ -89,7 +98,7 @@ export const options1 =  {
     yAxes: [{
       ticks: {
         beginAtZero: false,
-        maxTicksLimit: 10,
+        maxTicksLimit: 5,
         stepSize: 5
       },
       scaleLabel: {
@@ -98,16 +107,6 @@ export const options1 =  {
       }
     }]
   },
-  elements: {
-    line: {
-      borderWidth: 5
-    },
-    point: {
-      radius: 4,
-      hitRadius: 5,
-      hoverRadius: 4
-    }
-  }
 };
 
 

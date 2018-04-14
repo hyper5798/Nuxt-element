@@ -1,6 +1,6 @@
 {
   "name": "info-center",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "description": "Agri information collection center",
   "author": "hyper5798 <hyper5798@gmail.com>",
   "private": true,
@@ -23,7 +23,8 @@
     "nuxt": "^1.0.0",
     "vue-chartjs": "^3.3.1",
     "vue-i18n": "^7.6.0",
-    "vue2-google-maps": "^0.8.11"
+    "vue2-google-maps": "^0.8.11",
+    "xlsx": "^0.12.8"
   },
   "devDependencies": {
     "babel-eslint": "^8.2.1",
