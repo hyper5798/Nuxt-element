@@ -63,7 +63,7 @@
           { text: '超級管理者', value: 1 },
           { text: '一般管理者', value: 8 },
           { text: '一般用戶', value: 15 },
-          { text: '特殊用戶', value: 36 }
+          { text: '未設定', value: 0 }
         ],
         options2: [
           { text: '禁用', value: 1 },
@@ -118,6 +118,6 @@
   .scrollit {
     overflow:scroll;
     width: 100%;
-    height:600px;
+    height:400px;
   }
 </style>

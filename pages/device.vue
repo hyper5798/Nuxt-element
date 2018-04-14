@@ -139,7 +139,7 @@
           if (result.responseCode === '000') {
             this.$notify({
               title: '成功',
-              message: '更新裝置成功',
+              message: '新增裝置成功',
               type: 'success'
             })
             this.reloadDevice()
@@ -284,9 +284,11 @@
       },
       async reloadDevice () {
         var url2 = 'http://localhost:8000/device/v1/sensor'
-        getDeviceList(this, url2, {token: this.authUser.authToken}).then(res => {
+        await getDeviceList(this, url2, {token: this.authUser.authToken}).then(res => {
           // alert(JSON.stringify(res.data.mList))
           this.currentList = res.data.mList
+          this.isShowAdd = false
+          // alert(this.isShowAdd)
         })
       },
       async onUpdateDevice (index) {
