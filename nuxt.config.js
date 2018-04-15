@@ -41,7 +41,8 @@ module.exports = {
     '@nuxtjs/axios'
   ],
   axios: {
-    baseURL: 'https://api-server.mybluemix.net/',
+    // baseURL: 'https://api-server.mybluemix.net/',
+    baseURL: 'http://localhost:8000',
     credentials: false,
     proxyHeaders: false
   },

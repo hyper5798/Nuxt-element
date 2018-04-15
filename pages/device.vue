@@ -80,7 +80,7 @@
 </template>
 
 <script>
-  import { getMapList, getDeviceList , toUpdate, toDelete, toPost} from '~/tools/api'
+  import { getMapList, getDeviceList , addBatchDevice, activeDevice, updateDevice, deleteDevice} from '~/tools/api'
   import DeviceTable from '~/components/table/DeviceTable.vue'
   import Data from '~/components/table/data'
   import { toYMD } from '~/tools/time'
@@ -132,9 +132,8 @@
         for (let i =0; i< newList.length; ++i) {
           list.push(newList[i]['mac'])
         }
-        var url = 'http://localhost:8000/device/v1/batchDevices'
         var json = {token: this.authUser.authToken, list: list, type: 'LoRaM'}
-        await toPost(this, url, json).then(result => {
+        await addBatchDevice(this, json).then(result => {
           // console.log(result)
           if (result.responseCode === '000') {
             this.$notify({
@@ -257,13 +256,11 @@
       },
       async onActiveDevice (index) {
         this.toSortDevice()
-        var url = 'http://localhost:8000/device/v1/active'
         var device = this.currentList[index]
-
         // alert('onActiveDevice : ' + JSON.stringify(this.currentList))
         var json = {'token': this.authUser.authToken, 'd': device.device_mac, 'agri': 'true'}
         // alert('onActiveDevice : ' + JSON.stringify(json))
-        await toPost(this, url, json).then(result => {
+        await activeDevice(this, json).then(result => {
           // console.log(result)
           if (result.responseCode === '000') {
             device.device_status = 3
@@ -283,8 +280,7 @@
         })
       },
       async reloadDevice () {
-        var url2 = 'http://localhost:8000/device/v1/sensor'
-        await getDeviceList(this, url2, {token: this.authUser.authToken}).then(res => {
+        await getDeviceList(this, {token: this.authUser.authToken}).then(res => {
           // alert(JSON.stringify(res.data.mList))
           this.currentList = res.data.mList
           this.isShowAdd = false
@@ -294,10 +290,9 @@
       async onUpdateDevice (index) {
         this.toSortDevice()
         var device = this.currentList[index]
-        var url = 'http://localhost:8000/device/v1/device'
         var json = {token: this.authUser.authToken, d: device.device_mac, name: device.device_name}
         // alert(JSON.stringify(json))
-        await toUpdate(this, url, json).then(result => {
+        await updateDevice(this, json).then(result => {
           // console.log(result)
           if (result.responseCode === '000') {
             this.$notify({
@@ -316,10 +311,9 @@
       },
       async onDeleteDevice (index) {
         this.toSortDevice()
-        var url = 'http://localhost:8000/device/v1/device'
         var json = {token: this.authUser.authToken, delDeviceId: this.currentList[index].deviceId}
         // alert(JSON.stringify(json))
-        await toDelete(this, url, json).then(result => {
+        await deleteDevice(this, json).then(result => {
           if (result.responseCode === '000') {
             var device = this.currentList[index]
             if (device.fport > 0) {
@@ -353,12 +347,10 @@
     asyncData: async function ({app, error, store}) {
       console.log('#############################')
       try {
-        var url = 'http://localhost:8000/map/v1/'
-        var url2 = 'http://localhost:8000/device/v1/sensor'
         var token = store.state.authUser.authToken
         const [list, list2] = await Promise.all([
-          getMapList(app, url, {token: token}).then(res => res.data),
-          getDeviceList(app, url2, {token: token}).then(res => res.data)
+          getMapList(app, {token: token}).then(res => res.data),
+          getDeviceList(app, {token: token}).then(res => res.data)
         ])
 
         store.dispatch('set_map', list.data)

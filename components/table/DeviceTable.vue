@@ -25,7 +25,7 @@
             </td>
             <td>
               <!--<input v-model="device.device_status" size="1" type="number" min="0" max="3"/>-->
-              <el-button  v-if="device.device_status < 2" size="small" type="info"  @click="activeDevice(index)">
+              <el-button  v-if="device.device_status < 2" size="small" type="info"  @click="handleActiveDevice(index)">
                 啟用
               </el-button>
               <span v-else>已啟用</span>
@@ -93,7 +93,7 @@
           })
         })
       },
-      activeDevice(index) {
+      handleActiveDevice(index) {
         // console.log(index)
         this.$emit('active-device', index)
       }

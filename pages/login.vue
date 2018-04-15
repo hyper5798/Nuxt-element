@@ -64,10 +64,9 @@ export default {
         this.$message.error('請填寫密碼')
         return
       }
-      let loginParams = {acc: this.username, pwd: this.password, type: 0}
-      var url = 'http://localhost:8000/user/v1/login/gemtek'
       this.isBtnLoading = true
-      requestLogin(this, url, loginParams).then(data => {
+      let loginParams = {acc: this.username, pwd: this.password, type: 0}
+      requestLogin(this, loginParams).then(data => {
         this.isBtnLoading = false
         console.log('@@@@@ requestLogin data : \n ' + JSON.stringify(data))
         let { responseMsg, responseCode } = data

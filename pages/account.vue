@@ -94,7 +94,7 @@
 </template>
 
 <script>
-  import { toGet , toUpdate, toDelete, toPost} from '~/tools/api'
+  import { getUserList, updateUser, deleteUser, addUser} from '~/tools/api'
   import AccountTable from '~/components/table/AccountTable.vue'
   import Data from '~/components/table/data'
   import { toYMD } from '~/tools/time'
@@ -172,12 +172,10 @@
       },
       async toAddNewUser () {
         // alert('toAddNewDevice')
-
-        var url = 'http://localhost:8000/user/v1/register/gemtek'
         var json = this.ruleForm2
         json.type = '0'
         // alert(JSON.stringify(json))
-        await toPost(this, url, json).then(result => {
+        await addUser(this, json).then(result => {
           // console.log(result)
           if (result.responseCode === '000') {
             this.$notify({
@@ -202,8 +200,7 @@
         this.isShowAdd = false
       },
       async reloadUsers () {
-        var url = 'http://localhost:8000/user/v1/users'
-        toGet(this, url, {token: this.authUser.authToken}).then(res => {
+        getUserList(this, {token: this.authUser.authToken}).then(res => {
           // alert(JSON.stringify(res.data.users))
           this.currentList = res.data.users
           this.isShowAdd = false
@@ -212,7 +209,6 @@
       async onUpdateUser (index) {
         // alert('onUpdateUser : ' + index + ' > ' + JSON.stringify(this.currentList[index]))
         var user = this.currentList[index]
-        var url = 'http://localhost:8000/user/v1/users'
         //  ['token','mUserId', 'catId', 'roleId','userBlock']
         var json = {
           token: this.authUser.authToken,
@@ -221,7 +217,7 @@
           roleId: user.roleId,
           userBlock: user.userBlock}
         // alert(JSON.stringify(json))
-        await toUpdate(this, url, json).then(result => {
+        await updateUser(this, json).then(result => {
           // console.log(result)
           if (result.responseCode === '000') {
             this.$notify({
@@ -240,10 +236,9 @@
       },
       async onDeleteUser (index) {
         // alert('onDeleteUser : ' + index + ' > ' + JSON.stringify(this.currentList[index]))
-        var url = 'http://localhost:8000/user/v1/users'
         var json = {token: this.authUser.authToken, delUserId: this.currentList[index].userId}
         // alert(JSON.stringify(json))
-        await toDelete(this, url, json).then(result => {
+        await deleteUser(this, json).then(result => {
           if (result.responseCode === '000') {
             var device = this.currentList[index]
             this.currentList.splice(index, 1)
@@ -264,10 +259,9 @@
     },
     asyncData: async function ({app, error, store}) {
       try {
-        var url = 'http://localhost:8000/user/v1/users'
         var token = store.state.authUser.authToken
         const [list] = await Promise.all([
-          toGet(app, url, {token: token}).then(res => res.data),
+          getUserList(app, {token: token}).then(res => res.data),
         ])
         console.log(JSON.stringify(list.users))
         return {

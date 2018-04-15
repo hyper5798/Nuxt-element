@@ -235,9 +235,8 @@
         }
         this.isFindable = true
         params.sort = this.sort
-        var url = 'http://localhost:8000/device/v1/event'
         var myData = []
-        await getEventList(this, url, params).then(res => {
+        await getEventList(this, params).then(res => {
           // console.log('list ' + JSON.stringify(res.data)
           var data = res.data.data
           this.total = data.length
@@ -405,13 +404,11 @@
     },
     asyncData: async function ({app, error, store}) {
       try {
-        var url = 'http://localhost:8000/map/v1/'
-        var url2 = 'http://localhost:8000/device/v1/sensor/3'
         var token = store.state.authUser.authToken
 
         const [list, list2] = await Promise.all([
-          getMapList(app, url, {token: token}).then(res => res.data),
-          getDeviceList(app, url2, {token: token}).then(res => res.data)
+          getMapList(app, {token: token}).then(res => res.data),
+          getDeviceList(app, {token: token}).then(res => res.data)
         ])
         // console.log('list ' + JSON.stringify(list.data))
         var map = {}
