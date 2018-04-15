@@ -1,6 +1,6 @@
 <template>
-  <div class="main">
-    <el-container >
+  <div class="main agri-page">
+    <el-container>
       <el-header class="header">
         <div class="navbar-left">
           <span class="mark">Gemtek</span>
@@ -22,9 +22,8 @@
         </div>
         <el-row class="navbar-right">
           <el-button type="primary" icon="el-icon-edit" circle></el-button>
-          {{authUser.userInfo.name}}
+          <span v-if="authUser">{{authUser.userInfo.name}}</span>
         </el-row>
-
       </el-header>
       <el-container>
         <el-aside v-if="sidebar" width="{'60px': !isCollapse, '200px': isCollapse}" class="aside">
@@ -43,17 +42,17 @@
               <span slot="title">查詢</span>
             </el-menu-item>
             <el-menu-item index="/device">
-              <i class="el-icon-edit"></i>
+              <i class="fa fa-anchor"></i>
               <span slot="title">裝置</span>
             </el-menu-item>
             <el-menu-item index="/account">
               <i class="fa fa-users"></i>
               <span slot="title">帳戶</span>
             </el-menu-item>
-            <!--<el-menu-item index="/test">
-              <i class="el-icon-edit"></i>
-              <span slot="title">測試</span>
-            </el-menu-item>-->
+            <el-menu-item index="/log">
+              <i class="el-icon-bell"></i>
+              <span slot="title"></span>
+            </el-menu-item>
           </el-menu>
         </el-aside>
         <el-main>

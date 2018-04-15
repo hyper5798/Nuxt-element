@@ -203,7 +203,7 @@
         console.log(`每页 ${val} 条`)
       },
       handleCurrentChange(val) {
-        console.log(`当前页: ${val}`)
+        // console.log(`当前页: ${val}`)
         this.currentPage = val
         var s = (this.currentPage - 1) * this.size
         var e = (this.currentPage) * this.size
@@ -267,7 +267,7 @@
         this.showChart(this.allData)
       },
       showChart (data) {
-        console.log(data)
+        // console.log(data)
         if(data === null || data.length === 0) {
           return;
         }

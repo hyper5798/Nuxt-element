@@ -1,72 +1,107 @@
 <template>
-    <el-row class="panel-group" :gutter="20">
-      <el-col :xs="12" :sm="12" :lg="6" class="card-panel-col">
-        <div class='card-panel' @click="handleSetLineChartData('newVisitis')">
-          <div class="card-panel-icon-wrapper icon-people">
-            <i class="fa fa-users fa-4x"></i>
-          </div>
-          <div class="card-panel-description">
-            <div class="card-panel-text">目前帳戶</div>
-            <h3>5</h3>
-          </div>
-        </div>
-      </el-col>
-      <el-col :xs="12" :sm="12" :lg="6" class="card-panel-col">
-        <div class="card-panel" @click="handleSetLineChartData('messages')">
-          <div class="card-panel-icon-wrapper icon-message">
-            <i class="fa fa-adjust fa-4x"></i>
-          </div>
-          <div class="card-panel-description">
-            <div class="card-panel-text">支援裝置類型</div>
-            <h3>3</h3>
-          </div>
-        </div>
-      </el-col>
-      <el-col :xs="12" :sm="12" :lg="6" class="card-panel-col">
-        <div class="card-panel" @click="handleSetLineChartData('purchases')">
-          <div class="card-panel-icon-wrapper icon-money">
-            <i class="fa fa-wifi fa-4x"></i>
-          </div>
-          <div class="card-panel-description">
-            <div class="card-panel-text">已啟用裝置</div>
-            <h3>3</h3>
-          </div>
-        </div>
-      </el-col>
-      <el-col :xs="12" :sm="12" :lg="6" class="card-panel-col">
-        <div class="card-panel" @click="handleSetLineChartData('shoppings')">
-          <div class="card-panel-icon-wrapper icon-shoppingCard">
-            <i class="fa fa-envelope fa-4x"></i>
-          </div>
-          <div class="card-panel-description">
-            <div class="card-panel-text">本周收到資訊</div>
-            <h3>2030</h3>
-          </div>
-        </div>
-      </el-col>
-      <el-row>
-        <el-col :span="6" :gutter="20">
-          <div class="BG-Average">
-            <el-card class="box-card">
-              <el-row>
-                <el-col :span="8">目前帳戶 :</el-col>
-                <el-col :span="16">{{authUser.userInfo.name}}</el-col>
-                <el-col :span="24" class="card-panel-col">
-                  {{authUser}}
-                </el-col>
-              </el-row>
+  <el-row :gutter="20">
+    <el-col :xs="12" :sm="12" :md="6" :lg="6" :xl="6">
+      <div class="card-panel" @click="handleSetPath('/find')">
+        <el-row :gutter="10">
+          <el-col :span="12">
+            <div class ="my-panel icon-type">
+              <i class="fa fa-envelope fa-5x"></i>
+            </div>
+          </el-col>
+          <el-col :span="12">
+            <div class ="my-panel">
+              <h1>本周訊息</h1>
+            </div>
+          </el-col>
+          <el-col :span="12">
+            <div class ="my-panel">
+              <h3>{{mapList.length}}</h3>
+            </div>
+          </el-col>
+          <el-col :span="12">
 
+          </el-col>
+        </el-row>
+      </div>
+    </el-col>
+    <el-col :xs="12" :sm="12" :md="6" :lg="6" :xl="6">
+      <div class="card-panel" @click="handleSetPath('/device')">
+        <el-row :gutter="10">
+          <el-col :span="12">
+            <div class ="my-panel icon-device">
+              <i class="fa fa-anchor fa-5x"></i>
+            </div>
+          </el-col>
+          <el-col :span="12">
+            <div class ="my-panel">
+              <h1>已加入裝置</h1>
+            </div>
+          </el-col>
+          <el-col :span="12">
+            <div class ="my-panel">
+              <h3>{{deviceList.length}}</h3>
+            </div>
+          </el-col>
+          <el-col :span="12">
 
-            </el-card>
-          </div>
-        </el-col>
-      </el-row>
-    </el-row>
+          </el-col>
+        </el-row>
+      </div>
+    </el-col>
+    <el-col :xs="12" :sm="12" :md="6" :lg="6" :xl="6">
+      <div class="card-panel" @click="handleSetPath('/account')">
+        <el-row :gutter="10">
+          <el-col :span="12">
+            <div class ="my-panel icon-people">
+              <i class="fa fa-users fa-5x"></i>
+            </div>
+          </el-col>
+          <el-col :span="12">
+            <div class ="my-panel">
+              <h1>已加入帳戶</h1>
+            </div>
+          </el-col>
+          <el-col :span="12">
+            <div class ="my-panel">
+              <h3>{{userList.length}}人</h3>
+            </div>
+          </el-col>
+          <el-col :span="12">
+
+          </el-col>
+        </el-row>
+      </div>
+    </el-col>
+    <el-col :xs="12" :sm="12" :md="6" :lg="6" :xl="6">
+      <div class="card-panel" @click="handleSetPath('/log')">
+        <el-row :gutter="10">
+          <el-col :span="12">
+            <div class ="my-panel icon-notify">
+              <i class="fa fa-bell fa-5x"></i>
+            </div>
+          </el-col>
+          <el-col :span="12">
+            <div class ="my-panel">
+              <h1>通知事件</h1>
+            </div>
+          </el-col>
+          <el-col :span="12">
+            <div class ="my-panel">
+              <h3>0</h3>
+            </div>
+          </el-col>
+          <el-col :span="12">
+
+          </el-col>
+        </el-row>
+      </div>
+    </el-col>
+  </el-row>
 </template>
 
 <script>
   import { mapGetters } from 'vuex'
-
+  import { getMapList, getDeviceList, getEventList, getUserList} from '~/tools/api'
   export default {
     middleware: 'auth',
     components: {
@@ -77,84 +112,78 @@
       ])
     },
     methods: {
-      handleSetLineChartData(type) {
-        this.$emit('handleSetLineChartData', type)
+      handleSetPath(path) {
+        this.$router.push(path)
+      }
+    },
+    asyncData: async function ({app, error, store}) {
+      try {
+        var token = store.state.authUser.authToken
+
+        const [list, list2, list3] = await Promise.all([
+          getMapList(app, {token: token}).then(res => res.data),
+          getDeviceList(app, {token: token}).then(res => res.data),
+          getUserList(app, {token: token}).then(res => res.data)
+        ])
+
+        return {
+          mapList: list.data,
+          deviceList: list2.mList,
+          userList: list3.users
+        }
+      } catch (err) {
+        error(err)
       }
     }
   }
 </script>
 
-<style rel="stylesheet/scss" lang="scss" scoped>
-  .panel-group {
-    margin-top: 18px;
-    .card-panel-col{
-      margin-bottom: 32px;
-    }
-    .card-panel {
-      height: 108px;
-      cursor: pointer;
-      font-size: 12px;
-      position: relative;
-      overflow: hidden;
-      color: #666;
-      background: #fff;
-      box-shadow: 4px 4px 40px rgba(0, 0, 0, .05);
-      border-color: rgba(0, 0, 0, .05);
-      &:hover {
-        .card-panel-icon-wrapper {
-          color: #fff;
-        }
-        .icon-people {
-          background: #40c9c6;
-        }
-        .icon-message {
-          background: #36a3f7;
-        }
-        .icon-money {
-          background: #f4516c;
-        }
-        .icon-shoppingCard {
-          background: #34bfa3
-        }
-      }
-      .icon-people {
-        color: #40c9c6;
-      }
-      .icon-message {
-        color: #36a3f7;
-      }
-      .icon-money {
-        color: #f4516c;
-      }
-      .icon-shoppingCard {
-        color: #34bfa3
-      }
-      .card-panel-icon-wrapper {
-        float: left;
-        margin: 14px 0 0 14px;
-        padding: 16px;
-        transition: all 0.38s ease-out;
-        border-radius: 6px;
-      }
-      .card-panel-icon {
-        float: left;
-        font-size: 48px;
-      }
-      .card-panel-description {
-        float: right;
-        font-weight: bold;
-        margin: 26px;
-        margin-left: 0px;
-        .card-panel-text {
-          line-height: 18px;
-          color: rgba(0, 0, 0, 0.45);
-          font-size: 16px;
-          margin-bottom: 12px;
-        }
-        .card-panel-num {
-          font-size: 20px;
-        }
-      }
-    }
+<style>
+  .card-panel {
+    width: auto;
+    height: 90px;
+    border-radius: 5px;
+    background-color: #ffffff;
+    box-shadow: 3px 3px  grey;
+    text-align:center;
+    padding: 5px 5px 5px 5px;
   }
+  .card-panel:hover {
+    box-shadow: 5px 5px brown;
+  }
+  .my-panel {
+    margin: 10px;
+    background: #fff;
+  }
+  .icon-people {
+    flex-direction: column;
+    align-items: center;
+    color: #40c9c6;
+  }
+  .icon-people:hover {
+    background: #40c9c6;
+    color: #ffffff;
+  }
+  .icon-device {
+     color: #36a3f7;
+   }
+  .icon-device:hover {
+    background: #36a3f7;
+    color: #ffffff;
+  }
+  .icon-type {
+    color: #ac00e6;
+  }
+  .icon-type:hover {
+    background: #ac00e6;
+    color: #ffffff;
+  }
+  .icon-notify {
+    color:  #ff9900;
+  }
+  .icon-notify:hover {
+    background:  #ff9900;
+    color: #ffffff;
+  }
+
 </style>

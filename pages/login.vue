@@ -3,32 +3,27 @@
     <div class="login-form">
       <div class="input-group">
         <div class="title">農業資訊管理</div>
-        <el-input
-          :autofocus="true"
-          placeholder="請輸入用戶名"
-          icon="time"
-          v-model="username">
-        </el-input>
       </div>
-      <div class="input-group">
-        <el-input
-          placeholder="請輸入密碼"
-          type="password"
-          icon="time"
-          v-model="password">
-        </el-input>
-      </div>
-      <div class="input-group">
-        <!--<label>記住我？</label>
-        <el-switch
-          v-model="rememberMe"
-          on-text=""
-          off-text="">
-        </el-switch>-->
-      </div>
-      <div class="input-group">
+      <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="50px" class="demo-ruleForm">
+        <el-form-item label="帳號" prop="acc">
+          <el-input v-model="ruleForm.acc"></el-input>
+        </el-form-item>
+        <el-form-item label="密碼" prop="pwd">
+          <el-input v-model="ruleForm.pwd"></el-input>
+        </el-form-item>
+        <el-form-item>
+        <!--<el-form-item label="記住我?" prop="delivery">
+          <el-switch v-model="ruleForm.rememberMe"></el-switch>
+        </el-form-item> -->
+        </el-form-item>
+        <el-form-item>
+          <el-button type="primary" @click="submitForm('ruleForm')">立即登入</el-button>
+        </el-form-item>
+      </el-form>
+
+      <!--<div class="input-group">
         <el-button @click.native="login" type="primary" :loading="isBtnLoading">{{btnText}}</el-button>
-      </div>
+      </div>-->
     </div>
   </div>
 </template>
@@ -42,7 +37,22 @@ export default {
       username: 'Rogwang',
       password: 'gemtek123',
       rememberMe: false,
-      isBtnLoading: false
+      isBtnLoading: false,
+      ruleForm: {
+        acc: 'sysAdmin',
+        pwd: 'gemtek123',
+        type: 0
+      },
+      rules: {
+        acc: [
+          { required: true, message: '請輸入帳號名稱', trigger: 'blur' },
+          { min: 3, max: 10, message: '帳號長度3到10個字元', trigger: 'blur' }
+        ],
+        pwd: [
+          { required: true, message: '請輸入密碼', trigger: 'blur' },
+          { min: 8, max: 15, message: '密碼長度8到15個字元', trigger: 'blur' }
+        ]
+      }
     }
   },
   computed: {
@@ -51,10 +61,18 @@ export default {
       return '登錄'
     }
   },
-  mounted () {
-    console.log('####################login')
-  },
   methods: {
+    submitForm(formName) {
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          // alert('submit!')
+          this.login()
+        } else {
+          console.log('error submit!!');
+          return false
+        }
+      })
+    },
     login() {
       if (!this.username) {
         this.$message.error('請填寫用戶名！！！')
@@ -65,8 +83,7 @@ export default {
         return
       }
       this.isBtnLoading = true
-      let loginParams = {acc: this.username, pwd: this.password, type: 0}
-      requestLogin(this, loginParams).then(data => {
+      requestLogin(this, this.ruleForm).then(data => {
         this.isBtnLoading = false
         console.log('@@@@@ requestLogin data : \n ' + JSON.stringify(data))
         let { responseMsg, responseCode } = data

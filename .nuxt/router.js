@@ -4,10 +4,11 @@ import Router from 'vue-router'
 Vue.use(Router)
 
 const _1a34ea15 = () => import('..\\pages\\test.vue' /* webpackChunkName: "pages_test" */).then(m => m.default || m)
-const _672bf319 = () => import('..\\pages\\device.vue' /* webpackChunkName: "pages_device" */).then(m => m.default || m)
-const _1089c67a = () => import('..\\pages\\account.vue' /* webpackChunkName: "pages_account" */).then(m => m.default || m)
-const _58bf462a = () => import('..\\pages\\chart.vue' /* webpackChunkName: "pages_chart" */).then(m => m.default || m)
+const _767442de = () => import('..\\pages\\log.vue' /* webpackChunkName: "pages_log" */).then(m => m.default || m)
 const _3613afbc = () => import('..\\pages\\find.vue' /* webpackChunkName: "pages_find" */).then(m => m.default || m)
+const _58bf462a = () => import('..\\pages\\chart.vue' /* webpackChunkName: "pages_chart" */).then(m => m.default || m)
+const _1089c67a = () => import('..\\pages\\account.vue' /* webpackChunkName: "pages_account" */).then(m => m.default || m)
+const _672bf319 = () => import('..\\pages\\device.vue' /* webpackChunkName: "pages_device" */).then(m => m.default || m)
 const _0ee5b6f6 = () => import('..\\pages\\login.vue' /* webpackChunkName: "pages_login" */).then(m => m.default || m)
 const _453e13df = () => import('..\\pages\\index.vue' /* webpackChunkName: "pages_index" */).then(m => m.default || m)
 
@@ -75,14 +76,14 @@ export function createRouter () {
 			name: "test"
 		},
 		{
-			path: "/device",
-			component: _672bf319,
-			name: "device"
+			path: "/log",
+			component: _767442de,
+			name: "log"
 		},
 		{
-			path: "/account",
-			component: _1089c67a,
-			name: "account"
+			path: "/find",
+			component: _3613afbc,
+			name: "find"
 		},
 		{
 			path: "/chart",
@@ -90,9 +91,14 @@ export function createRouter () {
 			name: "chart"
 		},
 		{
-			path: "/find",
-			component: _3613afbc,
-			name: "find"
+			path: "/account",
+			component: _1089c67a,
+			name: "account"
+		},
+		{
+			path: "/device",
+			component: _672bf319,
+			name: "device"
 		},
 		{
 			path: "/login",

@@ -19,7 +19,6 @@
               <div class="text item">
                 <account-table
                   :list="currentList"
-                  @active-user="onActiveUser"
                   @edit-user="onUpdateUser"
                   @del-user="onDeleteUser">
                 </account-table>
@@ -43,7 +42,8 @@
                     label="帳號"
                     prop="name"
                     :rules="[
-                      { required: true, message: '帳號不能為空'}
+                      { required: true, message: '帳號不能為空'},
+                      { min: 3, max: 10, message: '帳號長度3到10個字元', trigger: 'blur' }
                     ]"
                   >
                     <el-input type="age" v-model="ruleForm2.name" auto-complete="off"></el-input>
@@ -116,6 +116,8 @@
       var validatePass = (rule, value, callback) => {
         if (value === '') {
           callback(new Error('請輸入密碼'))
+        } else if (value.length < 8 || value.length>15) {
+          callback(new Error('密碼長度8到15個字元'))
         } else {
           if (this.ruleForm2.pwd2 !== '') {
             this.$refs.ruleForm2.validateField('pwd2')
@@ -263,7 +265,7 @@
         const [list] = await Promise.all([
           getUserList(app, {token: token}).then(res => res.data),
         ])
-        console.log(JSON.stringify(list.users))
+        // console.log(JSON.stringify(list.users))
         return {
           currentList: list.users,
         }

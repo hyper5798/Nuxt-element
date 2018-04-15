@@ -126,6 +126,7 @@
           this.toAddNewDevice()
         }
       },
+
       async toAddNewDevice () {
         // alert('toAddNewDevice')
         var list = []
@@ -150,8 +151,7 @@
             })
           }
         })
-      },
-      importf (event) {
+      },    importf (event) {
         isEnableNew = false
         document.getElementById("demo").innerHTML= ''
         // console.log(event)
@@ -180,12 +180,12 @@
           var errArr = []
           for (let i = 0 ; i < newList.length ; ++i) {
             let check = newList[i]['mac']
-            console.log(check)
+            // console.log(check)
             let check2 = check.slice(0, 8)
             if (check.length !== 16 || check2 !== '00000000') {
               errArr.push(check)
             } else {
-              console.log(check + ' > ' + checkList.indexOf(check))
+              // console.log(check + ' > ' + checkList.indexOf(check))
               if (checkList.indexOf(check) > -1) {
                 repeatList.push(check)
               } else {
@@ -195,7 +195,7 @@
           }
           var repeatString = repeatList.toString()
           var errString = errArr.toString()
-          console.log(typeof errString + ' : ' + errString )
+          // console.log(typeof errString + ' : ' + errString )
           if (errString.length === 0 && repeatString.length === 0) {
             errString = '檢查結果 : 所有裝置識別碼(mac)檢查 OK'
             isEnableNew = true
@@ -233,7 +233,7 @@
         }
       },
       menuSelect (value) {
-        console.log('menuSelect : ' + typeof(value) + value)
+        // console.log('menuSelect : ' + typeof(value) + value)
         this.toSortDevice()
         this.currentList = this.sortDevice[value]
       },
@@ -241,7 +241,7 @@
         if (this.allDevice === null) {
           // console.log('this.currentList : ' + JSON.stringify(this.currentList))
           this.allDevice = JSON.parse(JSON.stringify(this.currentList))
-          console.log('this.allDevice : ' + JSON.stringify(this.allDevice))
+          // console.log('this.allDevice : ' + JSON.stringify(this.allDevice))
           var tmp = {}
           for (let i=0; i < this.allDevice.length ; ++i) {
             let type = this.allDevice[i].fport
@@ -249,7 +249,7 @@
               tmp[type] = []
             }
             tmp[type].push(this.allDevice[i])
-            console.log('tmp : ' + JSON.stringify(tmp))
+            // console.log('tmp : ' + JSON.stringify(tmp))
           }
           this.sortDevice = tmp
         }
@@ -345,7 +345,7 @@
       }
     },
     asyncData: async function ({app, error, store}) {
-      console.log('#############################')
+      // console.log('#############################')
       try {
         var token = store.state.authUser.authToken
         const [list, list2] = await Promise.all([
