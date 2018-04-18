@@ -207,10 +207,10 @@
         this.currentPage = val
         var s = (this.currentPage - 1) * this.size
         var e = (this.currentPage) * this.size
-
         this.data = this.allData.slice(s, e)
       },
       async toFind () {
+        this.displayTable()
         if (this.target === null) {
           this.waring ('尚未選擇裝置!')
           this.isFindable = false
@@ -232,6 +232,8 @@
           this.waring('始時間未選擇')
           this.isFindable = false
           return
+        } else if (params.to === undefined && params.from === undefined) {
+          params.limit = 1000
         }
         this.isFindable = true
         params.sort = this.sort

@@ -42,16 +42,16 @@
               <span slot="title">查詢</span>
             </el-menu-item>
             <el-menu-item index="/device">
-              <i class="fa fa-anchor"></i>
+              <i class="el-icon-view"></i>
               <span slot="title">裝置</span>
             </el-menu-item>
             <el-menu-item index="/account">
-              <i class="fa fa-users"></i>
+              <i class="el-icon-edit"></i>
               <span slot="title">帳戶</span>
             </el-menu-item>
             <el-menu-item index="/log">
               <i class="el-icon-bell"></i>
-              <span slot="title"></span>
+              <span slot="title">通知</span>
             </el-menu-item>
           </el-menu>
         </el-aside>

@@ -1,115 +1,30 @@
 <template>
-  <el-row :gutter="20">
-    <el-col :xs="12" :sm="12" :md="6" :lg="6" :xl="6">
-      <div class="card-panel" @click="handleSetPath('/find')">
-        <el-row :gutter="10">
-          <el-col :span="12">
-            <div class ="my-panel icon-type">
-              <i class="fa fa-envelope fa-5x"></i>
-            </div>
-          </el-col>
-          <el-col :span="12">
-            <div class ="my-panel">
-              <h1>本周訊息</h1>
-            </div>
-          </el-col>
-          <el-col :span="12">
-            <div class ="my-panel">
-              <h3>{{mapList.length}}</h3>
-            </div>
-          </el-col>
-          <el-col :span="12">
-
-          </el-col>
-        </el-row>
-      </div>
-    </el-col>
-    <el-col :xs="12" :sm="12" :md="6" :lg="6" :xl="6">
-      <div class="card-panel" @click="handleSetPath('/device')">
-        <el-row :gutter="10">
-          <el-col :span="12">
-            <div class ="my-panel icon-device">
-              <i class="fa fa-anchor fa-5x"></i>
-            </div>
-          </el-col>
-          <el-col :span="12">
-            <div class ="my-panel">
-              <h1>已加入裝置</h1>
-            </div>
-          </el-col>
-          <el-col :span="12">
-            <div class ="my-panel">
-              <h3>{{deviceList.length}}</h3>
-            </div>
-          </el-col>
-          <el-col :span="12">
-
-          </el-col>
-        </el-row>
-      </div>
-    </el-col>
-    <el-col :xs="12" :sm="12" :md="6" :lg="6" :xl="6">
-      <div class="card-panel" @click="handleSetPath('/account')">
-        <el-row :gutter="10">
-          <el-col :span="12">
-            <div class ="my-panel icon-people">
-              <i class="fa fa-users fa-5x"></i>
-            </div>
-          </el-col>
-          <el-col :span="12">
-            <div class ="my-panel">
-              <h1>已加入帳戶</h1>
-            </div>
-          </el-col>
-          <el-col :span="12">
-            <div class ="my-panel">
-              <h3>{{userList.length}}人</h3>
-            </div>
-          </el-col>
-          <el-col :span="12">
-
-          </el-col>
-        </el-row>
-      </div>
-    </el-col>
-    <el-col :xs="12" :sm="12" :md="6" :lg="6" :xl="6">
-      <div class="card-panel" @click="handleSetPath('/log')">
-        <el-row :gutter="10">
-          <el-col :span="12">
-            <div class ="my-panel icon-notify">
-              <i class="fa fa-bell fa-5x"></i>
-            </div>
-          </el-col>
-          <el-col :span="12">
-            <div class ="my-panel">
-              <h1>通知事件</h1>
-            </div>
-          </el-col>
-          <el-col :span="12">
-            <div class ="my-panel">
-              <h3>0</h3>
-            </div>
-          </el-col>
-          <el-col :span="12">
-
-          </el-col>
-        </el-row>
-      </div>
-    </el-col>
-  </el-row>
+  <div>
+    <panel-group :data="panelData" @click-panel="handleSetPath"></panel-group>
+    <weather-group :data="eventList " @click-panel="handleSetPath"></weather-group>
+  </div>
 </template>
 
 <script>
   import { mapGetters } from 'vuex'
   import { getMapList, getDeviceList, getEventList, getUserList} from '~/tools/api'
+  import PanelGroup from '~/components/Dashboard/PanelGroup.vue'
+  import WeatherGroup from '~/components/Dashboard/WeatherGroup.vue'
+  import ElContainer from "../node_modules/element-ui/packages/container/src/main.vue";
   export default {
     middleware: 'auth',
     components: {
+      ElContainer,
+      PanelGroup,
+      WeatherGroup
     },
     computed: {
       ...mapGetters([
         'authUser'
       ])
+    },
+    data () {
+      return {}
     },
     methods: {
       handleSetPath(path) {
@@ -119,17 +34,27 @@
     asyncData: async function ({app, error, store}) {
       try {
         var token = store.state.authUser.authToken
+        var json = {"token": token, "macAddr":"0000000005010be6","extra.fport":6, "limit": 100}
 
-        const [list, list2, list3] = await Promise.all([
+        const [list, list2, list3, list4] = await Promise.all([
           getMapList(app, {token: token}).then(res => res.data),
           getDeviceList(app, {token: token}).then(res => res.data),
-          getUserList(app, {token: token}).then(res => res.data)
+          getUserList(app, {token: token}).then(res => res.data),
+          getEventList(app, json).then(res => res.data)
         ])
+        console.log(list4)
 
         return {
           mapList: list.data,
           deviceList: list2.mList,
-          userList: list3.users
+          userList: list3.users,
+          eventList: list4.data,
+          panelData: {
+            info1: list4.data.length,
+            info2 : list2.mList.length,
+            info3: list3.users.length,
+            info4: 0
+          }
         }
       } catch (err) {
         error(err)
@@ -139,6 +64,12 @@
 </script>
 
 <style>
+  .el-row {
+    margin-bottom: 20px;
+  }
+  el-row:last-child {
+    margin-bottom: 0;
+  }
   .card-panel {
     width: auto;
     height: 90px;
@@ -165,8 +96,8 @@
     color: #ffffff;
   }
   .icon-device {
-     color: #36a3f7;
-   }
+    color: #36a3f7;
+  }
   .icon-device:hover {
     background: #36a3f7;
     color: #ffffff;

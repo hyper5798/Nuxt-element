@@ -27,48 +27,38 @@ export const emptyData = {
 };
 
 export const options = {
-  maintainAspectRatio: false,
-  legend: {
-    display: false
+  title:{
+    text: "Chart.js Time Scale"
+  },
+  tooltips: {
+    mode: 'index',
+  },
+  hover: {
+    mode: 'index'
   },
   scales: {
     xAxes: [{
-      gridLines: {
-        display: true,
-        color: 'gray',
-        drawOnChartArea: true
-      },
-      type: 'time',
+      type: "time",
       time: {
-        displayFormats: {
-          'hour': 'MM/DD HH',
-          'day': 'MM/DD'
-        }
+        parser: 'labels',
+        // round: 'day'
+        tooltipFormat: 'll HH:mm'
+      },
+      scaleLabel: {
+        display: true,
+        labelString: 'Date'
       }
-    }],
+    }, ],
     yAxes: [{
       ticks: {
-        beginAtZero: false,
-        maxTicksLimit: 5,
-        stepSize: 1
+        beginAtZero: true,
       },
-      gridLines: {
+      scaleLabel: {
         display: true,
-        color: 'gray',
-        drawOnChartArea: true
+        labelString: 'value'
       }
     }]
   },
-  elements: {
-    line: {
-      borderWidth: 5
-    },
-    point: {
-      radius: 4,
-      hitRadius: 5,
-      hoverRadius: 4
-    }
-  }
 };
 
 export const options1 =  {
