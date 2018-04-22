@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-row :gutter="20">
+    <el-row v-if="authUser.role==='superAdmin'" :gutter="20">
       <el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
         <div class="BG-Average-Copy">
           <div class="bg-content">
@@ -75,6 +75,21 @@
                   >
                     <el-input v-model="ruleForm2.email"></el-input>
                   </el-form-item>
+                  <el-form-item label="場域"
+                                prop="cp"
+                                :rules="[
+                                  { required: true, message: '場域不能為空'}
+                                ]"
+                  >
+                    <el-select v-model="ruleForm2.cp" clearable placeholder="請選擇場域">
+                      <el-option
+                        v-for="cp in cpList"
+                        :key="cp.cpId"
+                        :label="cp.cpName"
+                        :value="cp.cpName">
+                      </el-option>
+                    </el-select>
+                  </el-form-item>
                   <el-form-item>
                     <el-button type="primary" @click="submitForm('ruleForm2')">提交</el-button>
                     <el-button @click="resetForm('ruleForm2')">重置</el-button>
@@ -90,11 +105,15 @@
         </div>
       </el-col>
     </el-row>
+    <div v-else class="errMessage">
+      !!!你沒有權限觀看此頁面!!!
+      <br>請通知管理者更改權限
+    </div>
   </div>
 </template>
 
 <script>
-  import { getUserList, updateUser, deleteUser, addUser} from '~/tools/api'
+  import { getUserList, updateUser, deleteUser, addUser, getSimpleCpList} from '~/tools/api'
   import AccountTable from '~/components/table/AccountTable.vue'
   import Data from '~/components/table/data'
   import { toYMD } from '~/tools/time'
@@ -142,11 +161,12 @@
         allDevice: null,
         sortDevice: null,
         ruleForm2: {
-          name: 'test',
+          name: 'test4',
           pwd: '12345678',
           pwd2: '12345678',
           gender: 'M',
-          email: 'hyper5798@gmail.com'
+          email: 'hyper579@gmail.com',
+          cp: ''
         },
         rules2: {
           pwd: [
@@ -156,6 +176,12 @@
             { validator: validatePass2, trigger: 'blur' }
           ]
         }
+      }
+    },
+    mounted () {
+      if (this.authUser.userInfo) {
+        // alert(this.authUser.userInfo.cp)
+        this.ruleForm2.cp = this.authUser.userInfo.cp
       }
     },
     methods: {
@@ -175,6 +201,7 @@
       async toAddNewUser () {
         // alert('toAddNewDevice')
         var json = this.ruleForm2
+        json.createUser = this.authUser.userInfo.name
         json.type = '0'
         // alert(JSON.stringify(json))
         await addUser(this, json).then(result => {
@@ -213,6 +240,8 @@
         var user = this.currentList[index]
         //  ['token','mUserId', 'catId', 'roleId','userBlock']
         var json = {
+          createUser: this.authUser.userInfo.name,
+          userName: user.userName,
           token: this.authUser.authToken,
           mUserId: user.userId,
           catId: user.cpId,
@@ -239,6 +268,8 @@
       async onDeleteUser (index) {
         // alert('onDeleteUser : ' + index + ' > ' + JSON.stringify(this.currentList[index]))
         var json = {token: this.authUser.authToken, delUserId: this.currentList[index].userId}
+        json.createUser = this.authUser.userInfo.name
+        json.userName = this.currentList[index].userName
         // alert(JSON.stringify(json))
         await deleteUser(this, json).then(result => {
           if (result.responseCode === '000') {
@@ -262,12 +293,14 @@
     asyncData: async function ({app, error, store}) {
       try {
         var token = store.state.authUser.authToken
-        const [list] = await Promise.all([
+        const [list, list2] = await Promise.all([
           getUserList(app, {token: token}).then(res => res.data),
+          getSimpleCpList(app, {token: token}).then(res => res.data)
         ])
-        // console.log(JSON.stringify(list.users))
+        // console.log(JSON.stringify(list2))
         return {
           currentList: list.users,
+          cpList: list2.grps
         }
       } catch (err) {
         error(err)

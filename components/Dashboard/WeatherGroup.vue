@@ -1,6 +1,6 @@
 <template>
   <el-row :gutter="20">
-    <el-col :xs="24" :sm="24" :md="16" :lg="16" :xl="16">
+    <el-col :xs="24" :sm="24" :md="18" :lg="18" :xl="18">
       <el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12">
         <div class="weather-panel" >
           <Gauge :label="temperature.title"
@@ -30,21 +30,18 @@
       </el-col>
       <el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12">
         <div class="weather-panel">
-
-          <event-chart :chartData="tempData"></event-chart>
+          <event-card :chartData="tempData"></event-card>
         </div>
       </el-col>
       <el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12">
-
         <div class="weather-panel">
-
-         <event-chart :chartData="humData"></event-chart>
+         <event-card :chartData="humData"></event-card>
         </div>
       </el-col>
     </el-col>
-    <el-col :xs="24" :sm="24" :md="8" :lg="8" :xl="8">
+    <el-col :xs="24" :sm="24" :md="6" :lg="6" :xl="6">
        <div class="weather-panel2">
-         預計放氣象資料
+         <weather-card :data="weatherResult"></weather-card>
        </div>
     </el-col>
   </el-row>
@@ -52,13 +49,16 @@
 
 <script>
   import Gauge from '~/components/Gauge/Gauge.vue'
-  import EventChart from '~/components/charts/EventChart'
+  import EventCard from '~/components/charts/EventCard'
+  import WeatherCard from '~/components/Weather/WeatherCard'
   import { emptyData, COLORS, chartColors } from '~/components/charts/chart-data'
   import { toGet} from '~/tools/api'
+  import {conditionText} from '~/components/Weather/weatherData.js'
   export default {
     components: {
       Gauge,
-      EventChart
+      EventCard,
+      WeatherCard
     },
     data () {
       return {
@@ -81,7 +81,8 @@
         tempData: null,
         humData:null,
         tempValue: 0,
-        humValue: 0
+        humValue: 0,
+        weatherResult: null
       }
     },
     props: {
@@ -148,7 +149,7 @@
       },
       async queryWeather () {
         // const proxyurl = "https://cors-anywhere.herokuapp.com/";
-        const endpoint = "https://query.yahooapis.com/v1/public/yql?q=select * from weather.forecast where woeid in (select woeid from geo.places(1) where text='Sunderland') and u='c'&format=json";
+        const endpoint = "https://query.yahooapis.com/v1/public/yql?q=select * from weather.forecast where woeid in (select woeid from geo.places(1) where text='Hualien') and u='c'&format=json";
         // const endpoint = "https://query.yahooapis.com/v1/public/yql?q=select * from json where url=\"http://m.weather.com.cn/data/101210101.html\"&format=json"
         /* const yapi = await this.$axios.get({
           url: proxyurl + endpoint,
@@ -157,10 +158,19 @@
         await this.$axios.get(endpoint).then(res => {
           console.log('!!!!!!!!!!!!!!')
           console.log(res.data.query)
+          this.weatherResult = res.data.query
+          if (res.data.query) {
+            var con = res.data.query.results.channel.item.condition
+            console.log(conditionText)
+            console.log(con.text)
+            this.weatherResult = {condition:{}}
+            this.weatherResult.condition.text = conditionText[con.text]
+            this.weatherResult.condition.temp = con.temp
+            console.log('conText : ' + con.text)
+          }
         })
       }
     }
-
   }
 </script>
 
@@ -186,7 +196,7 @@
     text-align:center;
     padding: 5px 5px 5px 5px;
     margin-bottom: 10px;
-    background: url('~static/img/bg_sun.jpg') ;
+    background: url('~static/img/bg_clouds.jpg') ;
     -moz-background-size:auto;        /*for Firefox*/
     -webkit-background-size:auto;        /*for Google Chrome、Safari*/
     -o-background-size:auto;        /*for Opera*/

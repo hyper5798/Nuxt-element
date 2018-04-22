@@ -1,0 +1,41 @@
+export const conditionText = {
+  'Fine': '天晴',
+  'Cloudy': '多雲',
+  'Sunny': '陽光充沛',
+  'Overcast': '天陰',
+  'Sunny Periods': '部分時間有陽光',
+  'Sunny Intervals': '短暫時間有陽光',
+  'Bright': '天色明朗',
+  'Occasional Showers': '間中有驟雨',
+  'Scattered Showers': '零散驟雨',
+  'Isolated Showers': '局部地區性驟雨',
+  'Squally': '狂風',
+  'Squally Showers': '狂風驟雨',
+  'Thundery Showers': '雷雨',
+  'Mostly Cloudy': '大部分多雲',
+  'Thunderstorm': '雷暴',
+  'Drizzle': '毛毛雨',
+  'Hail': '雹',
+  'Dew': '露'
+};
+
+export const conditionImage = {
+  'Fine': 'fine.gif',
+  'Cloudy': 'cloudy.gif',
+  'Sunny': 'sunny.gif',
+  'Overcast': 'overcast.png',
+  'Sunny Periods': 'sunnyperiod.gif',
+  'Sunny Intervals': 'sunnyperiod.gif',
+  'Bright': 'unnyperiod.gif',
+  'Occasional Showers': 'showers_day.gif',
+  'Scattered Showers': 'showers_day.gif',
+  'Isolated Showers': 'showers_day.gif',
+  'Squally': 'squall.png',
+  'Squally Showers': 'squallline1.png',
+  'Thundery Showers': 'thundershower.png',
+  'Mostly Cloudy': 'cloudy.gif',
+  'Thunderstorm': 'thunder.gif',
+  'Drizzle': 'rainynight.gif',
+  'Hail': 'hail.png',
+  'Dew': 'dew.png'
+};

@@ -27,7 +27,6 @@
                 </el-row>
                 <el-cascader
                   class="deviceSelecter"
-                  expand-trigger="hover"
                   :options="options"
                   v-model="target"
                   :show-all-levels="false"
@@ -157,7 +156,7 @@
         }
       },
       handleChange (value) {
-        // console.log(value);
+        alert(value)
         this.target = value
         let fport = this.target[0]
         // console.log('fport : ' + fport)
@@ -414,14 +413,19 @@
         ])
         // console.log('list ' + JSON.stringify(list.data))
         var map = {}
-        list2.mList.forEach(function (device) {
-          let info = {value: device.device_mac, label: device.device_name}
-          if (map[device.fport]) {
-            map[device.fport].push(info)
-          } else {
-            map[device.fport] = [info]
-          }
-        })
+        if (list2.mList) {
+          list2.mList.forEach(function (device) {
+            let info = {value: device.device_mac, label: device.device_name}
+            if (map[device.fport]) {
+              map[device.fport].push(info)
+            } else {
+              map[device.fport] = [info]
+            }
+          })
+        } else {
+          alert('尚未加入任何裝置')
+        }
+
         //console.log('map : ' + JSON.stringify(map))
         var test = []
         list.data.forEach(function (item) {

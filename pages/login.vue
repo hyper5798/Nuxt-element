@@ -15,10 +15,21 @@
         <!--<el-form-item label="記住我?" prop="delivery">
           <el-switch v-model="ruleForm.rememberMe"></el-switch>
         </el-form-item> -->
+        <el-form-item v-if="cpList" label="場域" prop="cp">
+          <el-select v-model="ruleForm.cp" clearable placeholder="請選擇場域">
+            <el-option
+              v-for="cp in cpList"
+              :key="cp.cpId"
+              :label="cp.cpName"
+              :value="cp.cpName">
+            </el-option>
+          </el-select>
+        </el-form-item>
         </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="submitForm('ruleForm')">立即登入</el-button>
         </el-form-item>
+
       </el-form>
 
       <!--<div class="input-group">
@@ -29,7 +40,7 @@
 </template>
 
 <script>
-import { requestLogin } from '~/tools/api'
+import { requestLogin, getSimpleCpList } from '~/tools/api'
 export default {
   layout: 'full',
   data() {
@@ -39,8 +50,9 @@ export default {
       rememberMe: false,
       isBtnLoading: false,
       ruleForm: {
-        acc: 'sysAdmin',
-        pwd: 'gemtek123',
+        acc: 'test',
+        pwd: '12345678',
+        cp: 'niu',
         type: 0
       },
       rules: {
@@ -51,6 +63,9 @@ export default {
         pwd: [
           { required: true, message: '請輸入密碼', trigger: 'blur' },
           { min: 8, max: 15, message: '密碼長度8到15個字元', trigger: 'blur' }
+        ],
+        cp:[
+          { required: true, message: '分區不能為空', trigger: 'blur'}
         ]
       }
     }
@@ -101,6 +116,19 @@ export default {
           }
         }
       })
+    }
+  },
+  asyncData: async function ({app, error, store}) {
+    try {
+      const [list] = await Promise.all([
+        getSimpleCpList(app, {token: null}).then(res => res.data)
+      ])
+      console.log(JSON.stringify(list))
+      return {
+        cpList: list.grps
+      }
+    } catch (err) {
+      error(err)
     }
   }
 }

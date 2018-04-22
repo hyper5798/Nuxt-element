@@ -1,6 +1,10 @@
 <template>
   <div>
-    <el-row :gutter="20">
+    <div v-if="authUser.role==='generalUser'" class="errMessage">
+      !!!你沒有權限觀看此頁面!!!
+      <br>請通知管理者更改權限
+    </div>
+    <el-row v-else  :gutter="20">
       <el-col :xs="24" :sm="24" :md="6" :lg="6" :xl="6">
         <div class="BG-Average">
           <div class="bg-purple">
@@ -56,12 +60,17 @@
       <el-col :xs="24" :sm="24" :md="18" :lg="18" :xl="18">
         <div class="BG-Average-Copy">
           <div class="bg-content">
-            <device-table v-if="!isShowAdd"
-                          :list="currentList"
-                          @active-device="onActiveDevice"
-                          @edit-device="onUpdateDevice"
-                          @del-device="onDeleteDevice">
-            </device-table>
+            <div v-if="!isShowAdd">
+              <device-table
+                v-if="currentList"
+                :list="currentList"
+                @active-device="onActiveDevice"
+                @edit-device="onUpdateDevice"
+                @del-device="onDeleteDevice">
+              </device-table>
+              <span v-else><h1>尚無裝置!!!</h1></span>
+            </div>
+
             <div>
               <el-card v-if="isShowAdd" class="box-card">
                 <div slot="header" class="clearfix">

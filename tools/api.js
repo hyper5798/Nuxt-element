@@ -28,14 +28,19 @@ export const updateDevice = (vm, params) => {
 export const deleteDevice = (vm, params) => {
   return vm.$axios.$delete('/device/v1/device', {params: params}).then(res => res)
 }
-
+/* ------------------------------- cp api -----------------------------*/
+export const getSimpleCpList = (vm, params) => {
+  return vm.$axios.get('/admin/v1/scps', {params: params})
+}
 /* ------------------------------- account api -----------------------------*/
 export const getUserList = (vm, params) => {
   return vm.$axios.get('/user/v1/users', {params: params})
 }
 
 export const addUser = (vm, params) => {
-  return vm.$axios.$post('user/v1/register/gemtek', params).then(res => res)
+  var url = 'user/v1/register/' + params.cp
+  delete params.cp
+  return vm.$axios.$post(url, params).then(res => res)
 }
 
 export const updateUser = (vm, params) => {
@@ -63,5 +68,7 @@ export const toPost = (vm, url, params) => {
 }
 
 export const requestLogin = (vm, params) => {
-  return vm.$axios.$post('/user/v1/login/gemtek', params).then(res => res)
+  var url = '/user/v1/login/' + params.cp
+  delete params.cp
+  return vm.$axios.$post(url, params).then(res => res)
 }

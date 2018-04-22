@@ -29,7 +29,14 @@
     methods: {
       handleSetPath(path) {
         this.$router.push(path)
-      }
+      },
+      waring (msg) {
+        this.$notify({
+          title: '警告',
+          message: msg,
+          type: 'warning'
+        });
+      },
     },
     asyncData: async function ({app, error, store}) {
       try {
@@ -42,17 +49,49 @@
           getUserList(app, {token: token}).then(res => res.data),
           getEventList(app, json).then(res => res.data)
         ])
+        console.log(list2)
+        console.log(list3)
         console.log(list4)
+        var infoLength = 0
+        var info2Length = 0
+        var info3Length = 0
+        var myMapList = null
+        var myDeviceList = null
+        var myEventList = null
+        var myUserList = null
 
+        if (list.responseCode === '401') {
+          alert('帳戶沒有權限取得裝置類型資料!')
+        } else if (list.responseCode === '000'  ) {
+          myMapList = list.data
+        }
+        if (list2.responseCode === '401'  ) {
+          alert('帳戶沒有權限取得裝置資料!')
+        } else if (list2.responseCode === '000') {
+          myDeviceList = list2.mList
+          info2Length = myDeviceList.length
+        }
+        if (list3.responseCode === '401'  ) {
+          alert('帳戶沒有權限取得使用者資料!')
+        } else if (list3.responseCode === '000'  ) {
+          myUserList = list3.users
+          info3Length = myUserList.length
+        }
+        if (list4.responseCode === '401') {
+          alert('帳戶沒有權限取得歷史資料!')
+        } else if (list4.responseCode === '000') {
+          myEventList = list4.data
+          infoLength = myEventList.length
+        }
         return {
-          mapList: list.data,
-          deviceList: list2.mList,
-          userList: list3.users,
-          eventList: list4.data,
+          mapList: myMapList,
+          deviceList: myDeviceList,
+          userList: myUserList,
+          eventList: myEventList,
           panelData: {
-            info1: list4.data.length,
-            info2 : list2.mList.length,
-            info3: list3.users.length,
+            info1: infoLength,
+            info2: info2Length,
+            info3: info3Length,
             info4: 0
           }
         }
