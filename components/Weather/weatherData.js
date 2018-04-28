@@ -6,6 +6,7 @@ export const conditionText = {
   'Sunny Periods': '部分時間有陽光',
   'Sunny Intervals': '短暫時間有陽光',
   'Bright': '天色明朗',
+  'Showers': '驟雨',
   'Occasional Showers': '間中有驟雨',
   'Scattered Showers': '零散驟雨',
   'Isolated Showers': '局部地區性驟雨',
@@ -13,7 +14,8 @@ export const conditionText = {
   'Squally Showers': '狂風驟雨',
   'Thundery Showers': '雷雨',
   'Mostly Cloudy': '大部分多雲',
-  'Thunderstorm': '雷暴',
+  'Thunderstorms': '雷暴',
+  'Scattered Thunderstorms':'零星的雷暴',
   'Drizzle': '毛毛雨',
   'Hail': '雹',
   'Dew': '露'
@@ -34,7 +36,8 @@ export const conditionImage = {
   'Squally Showers': 'squallline1.png',
   'Thundery Showers': 'thundershower.png',
   'Mostly Cloudy': 'cloudy.gif',
-  'Thunderstorm': 'thunder.gif',
+  'Thunderstorms': 'thunder.gif',
+  'Scattered Thunderstorms': 'thunder.gif',
   'Drizzle': 'rainynight.gif',
   'Hail': 'hail.png',
   'Dew': 'dew.png'

@@ -69,5 +69,11 @@ export default {
     // { name: '啟用時間', prop: 'active_time' },
     { name: '裝置狀態', prop: 'status' },
     { name: '裝置類型', prop: 'type' }
+  ],
+  columns_log: [
+    { name: '標題', prop: 'subject' },
+    { name: '訊息', prop: 'content' },
+    { name: '操作者', prop: 'createUser' },
+    { name: '時間', prop: 'date' }
   ]
 }

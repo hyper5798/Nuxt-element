@@ -156,7 +156,7 @@
         }
       },
       handleChange (value) {
-        alert(value)
+        // alert(value)
         this.target = value
         let fport = this.target[0]
         // console.log('fport : ' + fport)
@@ -216,7 +216,7 @@
           return
         }
         var token = this.$store.state.authUser.authToken
-        let params = {fport: this.target[0], macAddr: this.target[1], token: token, paginate: false}
+        let params = {fport: this.target[0], macAddr: this.target[1], token: token, paginate: false, limit: 0}
         if (this.start) {
           params.from = this.start
         }

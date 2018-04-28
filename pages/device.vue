@@ -267,7 +267,7 @@
         this.toSortDevice()
         var device = this.currentList[index]
         // alert('onActiveDevice : ' + JSON.stringify(this.currentList))
-        var json = {'token': this.authUser.authToken, 'd': device.device_mac, 'agri': 'true'}
+        var json = {'token': this.authUser.authToken, 'd': device.device_mac, 'agri': 'true',name: device.device_name}
         // alert('onActiveDevice : ' + JSON.stringify(json))
         await activeDevice(this, json).then(result => {
           // console.log(result)
@@ -320,7 +320,11 @@
       },
       async onDeleteDevice (index) {
         this.toSortDevice()
-        var json = {token: this.authUser.authToken, delDeviceId: this.currentList[index].deviceId}
+        // alert(JSON.stringify(this.currentList[index]))
+        var id = this.currentList[index].deviceId
+        var mac = this.currentList[index].device_mac
+        var name = this.currentList[index].device_name
+        var json = {token: this.authUser.authToken, delDeviceId: id, mac: mac, name: name}
         // alert(JSON.stringify(json))
         await deleteDevice(this, json).then(result => {
           if (result.responseCode === '000') {

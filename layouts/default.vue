@@ -51,7 +51,11 @@
             </el-menu-item>
             <el-menu-item index="/log">
               <i class="el-icon-bell"></i>
-              <span slot="title">通知</span>
+              <span slot="title">紀錄</span>
+            </el-menu-item>
+            <el-menu-item index="/notify">
+              <i class="el-icon-edit-outline"></i>
+              <span slot="title">通知設定</span>
             </el-menu-item>
           </el-menu>
         </el-aside>
@@ -125,7 +129,6 @@
     min-height: 600px;
   }
   .mark {
-    mer
     font-size: 36px;
   }
 

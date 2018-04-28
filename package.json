@@ -1,9 +1,15 @@
 {
   "name": "info-center",
-  "version": "1.0.15",
+  "version": "1.0.16",
   "description": "Agri information collection center",
   "author": "hyper5798 <hyper5798@gmail.com>",
   "private": true,
+  "config": {
+    "nuxt": {
+      "host": "0.0.0.0",
+      "port": "8080"
+    }
+  },
   "scripts": {
     "dev": "nuxt",
     "build": "nuxt build",

@@ -7,7 +7,7 @@
 
 <script>
   import { mapGetters } from 'vuex'
-  import { getMapList, getDeviceList, getEventList, getUserList} from '~/tools/api'
+  import { getMapList, getDeviceList, getEventList, getUserList, getLogList} from '~/tools/api'
   import PanelGroup from '~/components/Dashboard/PanelGroup.vue'
   import WeatherGroup from '~/components/Dashboard/WeatherGroup.vue'
   import ElContainer from "../node_modules/element-ui/packages/container/src/main.vue";
@@ -41,24 +41,32 @@
     asyncData: async function ({app, error, store}) {
       try {
         var token = store.state.authUser.authToken
-        var json = {"token": token, "macAddr":"0000000005010be6","extra.fport":6, "limit": 100}
+        var now = new Date();
+        var today = now.getFullYear() + '-' + (now.getMonth()+1) + '-' +  now.getDate() + ' 00:00:00';
+        var from = new Date(today);
+        var to = new Date(from.getTime() + 24*60*60*1000);  //前一天var nextDate = new
+        var json = {token: token,type: 'notify', from: from, to: to}
+        var json2 = {"token": token, "macAddr":"0000000005010be6","extra.fport":6, "limit": 100}
 
-        const [list, list2, list3, list4] = await Promise.all([
+        const [list, list2, list3, list4, list5] = await Promise.all([
           getMapList(app, {token: token}).then(res => res.data),
           getDeviceList(app, {token: token}).then(res => res.data),
           getUserList(app, {token: token}).then(res => res.data),
-          getEventList(app, json).then(res => res.data)
+          getEventList(app, json2).then(res => res.data),
+          getLogList(app, json).then(res => res.data)
         ])
-        console.log(list2)
-        console.log(list3)
-        console.log(list4)
+        // console.log(list2)
+        // console.log(list3)
+        // console.log(list5)
         var infoLength = 0
         var info2Length = 0
         var info3Length = 0
+        var info4Length = 0
         var myMapList = null
         var myDeviceList = null
         var myEventList = null
         var myUserList = null
+        var myLogList = null
 
         if (list.responseCode === '401') {
           alert('帳戶沒有權限取得裝置類型資料!')
@@ -83,16 +91,23 @@
           myEventList = list4.data
           infoLength = myEventList.length
         }
+        if (list5.responseCode === '401') {
+          alert('帳戶沒有權限取得歷史資料!')
+        } else if (list4.responseCode === '000') {
+          myLogList = list5.list
+          info4Length = list5.size
+        }
         return {
           mapList: myMapList,
           deviceList: myDeviceList,
           userList: myUserList,
           eventList: myEventList,
+          logList: myLogList,
           panelData: {
             info1: infoLength,
             info2: info2Length,
             info3: info3Length,
-            info4: 0
+            info4: info4Length
           }
         }
       } catch (err) {

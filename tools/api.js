@@ -1,7 +1,15 @@
 let base = ''
 
+export const getLogList = (vm, params) => {
+  return vm.$axios.get('/admin/v1/logs', {params: params})
+}
+
+/* ------------------------------- map api -----------------------------*/
 export const getMapList = (vm, params) => {
   return vm.$axios.get('/map/v1/', {params: params})
+}
+export const updateMapProfile = (vm, params) => {
+  return vm.$axios.$put('/map/v1/', params).then(res => res)
 }
 
 export const getEventList = (vm, params) => {

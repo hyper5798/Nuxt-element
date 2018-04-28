@@ -184,7 +184,7 @@
     text-align:center;
     padding: 5px 5px 5px 5px;
     margin-bottom: 10px;
-    background: url('~static/img/bg_sun.jpg') ;
+    // background: url('~static/img/bg_sun.jpg') ;
   }
 
   .weather-panel2 {
