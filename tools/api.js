@@ -59,6 +59,18 @@ export const deleteUser = (vm, params) => {
   return vm.$axios.$delete('/user/v1/users', {params: params}).then(res => res)
 }
 
+export const requestLogin = (vm, params) => {
+  var url = '/user/v1/login/' + params.cp
+  delete params.cp
+  return vm.$axios.$post(url, params).then(res => res)
+}
+
+export const toLogout = (vm, params) => {
+  var url = '/user/v1/logout/'
+  delete params.cp
+  return vm.$axios.$post(url, params).then(res => res)
+}
+
 export const toGet = (vm, url, params) => {
   return vm.$axios.get(url, {params: params})
 }
@@ -75,8 +87,4 @@ export const toPost = (vm, url, params) => {
   return vm.$axios.$post(url, params).then(res => res)
 }
 
-export const requestLogin = (vm, params) => {
-  var url = '/user/v1/login/' + params.cp
-  delete params.cp
-  return vm.$axios.$post(url, params).then(res => res)
-}
+

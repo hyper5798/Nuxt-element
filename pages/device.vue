@@ -31,7 +31,7 @@
 
             <el-card v-if="!isShowAdd" class="box-card">
               <div slot="header" class="clearfix" @click="selectAllDevice">
-                <span>裝置編輯</span>
+                <span>全部裝置</span>
                 <el-tooltip class="item" effect="dark" content="按此新增裝置" placement="top">
                   <el-button type="primary"
                              icon="el-icon-plus"

@@ -81,8 +81,8 @@ export const actions = {
   },
 
   async logout ({ commit }) {
-    await this.$axios.post('/api/logout')
+    console.log('######## store logout')
+    // await this.$axios.post('/admin/v1/logout')
     commit('SET_USER', null)
   }
-
 }

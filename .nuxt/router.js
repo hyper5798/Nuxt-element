@@ -4,12 +4,13 @@ import Router from 'vue-router'
 Vue.use(Router)
 
 const _1a34ea15 = () => import('..\\pages\\test.vue' /* webpackChunkName: "pages_test" */).then(m => m.default || m)
-const _767442de = () => import('..\\pages\\log.vue' /* webpackChunkName: "pages_log" */).then(m => m.default || m)
-const _3613afbc = () => import('..\\pages\\find.vue' /* webpackChunkName: "pages_find" */).then(m => m.default || m)
-const _58bf462a = () => import('..\\pages\\chart.vue' /* webpackChunkName: "pages_chart" */).then(m => m.default || m)
-const _1089c67a = () => import('..\\pages\\account.vue' /* webpackChunkName: "pages_account" */).then(m => m.default || m)
-const _672bf319 = () => import('..\\pages\\device.vue' /* webpackChunkName: "pages_device" */).then(m => m.default || m)
 const _0ee5b6f6 = () => import('..\\pages\\login.vue' /* webpackChunkName: "pages_login" */).then(m => m.default || m)
+const _672bf319 = () => import('..\\pages\\device.vue' /* webpackChunkName: "pages_device" */).then(m => m.default || m)
+const _1089c67a = () => import('..\\pages\\account.vue' /* webpackChunkName: "pages_account" */).then(m => m.default || m)
+const _58bf462a = () => import('..\\pages\\chart.vue' /* webpackChunkName: "pages_chart" */).then(m => m.default || m)
+const _3613afbc = () => import('..\\pages\\find.vue' /* webpackChunkName: "pages_find" */).then(m => m.default || m)
+const _767442de = () => import('..\\pages\\log.vue' /* webpackChunkName: "pages_log" */).then(m => m.default || m)
+const _19a68ae8 = () => import('..\\pages\\notify.vue' /* webpackChunkName: "pages_notify" */).then(m => m.default || m)
 const _453e13df = () => import('..\\pages\\index.vue' /* webpackChunkName: "pages_index" */).then(m => m.default || m)
 
 
@@ -76,24 +77,9 @@ export function createRouter () {
 			name: "test"
 		},
 		{
-			path: "/log",
-			component: _767442de,
-			name: "log"
-		},
-		{
-			path: "/find",
-			component: _3613afbc,
-			name: "find"
-		},
-		{
-			path: "/chart",
-			component: _58bf462a,
-			name: "chart"
-		},
-		{
-			path: "/account",
-			component: _1089c67a,
-			name: "account"
+			path: "/login",
+			component: _0ee5b6f6,
+			name: "login"
 		},
 		{
 			path: "/device",
@@ -101,9 +87,29 @@ export function createRouter () {
 			name: "device"
 		},
 		{
-			path: "/login",
-			component: _0ee5b6f6,
-			name: "login"
+			path: "/account",
+			component: _1089c67a,
+			name: "account"
+		},
+		{
+			path: "/chart",
+			component: _58bf462a,
+			name: "chart"
+		},
+		{
+			path: "/find",
+			component: _3613afbc,
+			name: "find"
+		},
+		{
+			path: "/log",
+			component: _767442de,
+			name: "log"
+		},
+		{
+			path: "/notify",
+			component: _19a68ae8,
+			name: "notify"
 		},
 		{
 			path: "/",

@@ -20,10 +20,31 @@
                        @click="maxMenu">
           </el-button>
         </div>
-        <el-row class="navbar-right">
+        <!--<el-row class="navbar-right">
           <el-button type="primary" icon="el-icon-edit" circle></el-button>
           <span v-if="authUser">{{authUser.userInfo.name}}</span>
-        </el-row>
+        </el-row>-->
+        <el-dropdown class="navbar-right">
+          <span class="el-dropdown-link">
+            <span v-if="authUser">{{authUser.userInfo.name}}</span>
+          <i class="el-icon-arrow-down el-icon--right"></i>
+          </span>
+          <el-dropdown-menu slot="dropdown">
+            <router-link to="/account">
+              <el-dropdown-item>
+                帳號管理
+              </el-dropdown-item>
+            </router-link>
+            <router-link to="/notify">
+              <el-dropdown-item>
+                通知管理
+              </el-dropdown-item>
+            </router-link>
+            <el-dropdown-item divided>
+              <span @click="logout" style="display:block;">登出</span>
+            </el-dropdown-item>
+          </el-dropdown-menu>
+        </el-dropdown>
       </el-header>
       <el-container>
         <el-aside v-if="sidebar" width="{'60px': !isCollapse, '200px': isCollapse}" class="aside">
@@ -45,18 +66,18 @@
               <i class="el-icon-view"></i>
               <span slot="title">裝置</span>
             </el-menu-item>
-            <el-menu-item index="/account">
+            <!--<el-menu-item index="/account">
               <i class="el-icon-edit"></i>
               <span slot="title">帳戶</span>
-            </el-menu-item>
+            </el-menu-item> -->
             <el-menu-item index="/log">
               <i class="el-icon-bell"></i>
               <span slot="title">紀錄</span>
             </el-menu-item>
-            <el-menu-item index="/notify">
+            <!--<el-menu-item index="/notify">
               <i class="el-icon-edit-outline"></i>
               <span slot="title">通知設定</span>
-            </el-menu-item>
+            </el-menu-item>-->
           </el-menu>
         </el-aside>
         <el-main>
@@ -73,6 +94,7 @@
 
 <script>
   import { mapGetters } from 'vuex'
+  import { toLogout} from '~/tools/api'
   export default {
     data: () => ({
       opened: false,
@@ -100,9 +122,20 @@
       toggleSideBar() {
         this.$store.dispatch('toggleSidebar')
       },
-      logout() {
-        this.$store.dispatch('LogOut').then(() => {
+      async logout() {
+        // alert('logout')
+        // this.$router.push('/login')
+        this.$store.dispatch('logout').then(() => {
           location.reload()// In order to re-instantiate the vue-router object to avoid bugs
+        })
+        var json = {token: this.authUser.authToken}
+        await toLogout(this, json).then(result => {
+          // console.log(result)
+          if (result.responseCode === '000') {
+            console.log('logou OK')
+          } else {
+            console.log('logou fail')
+          }
         })
       }
     }

@@ -33,7 +33,7 @@
                   <el-button type="success"
                              style="float: right"
                              @click="displayAddList">
-                    Line + 好友
+                    + 好友
                   </el-button>
                 </el-tooltip>
               </div>

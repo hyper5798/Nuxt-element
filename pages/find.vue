@@ -6,12 +6,12 @@
           <div class="bg-purple">
             <el-card class="box-card">
               <div slot="header" class="clearfix">
-                <span>裝置查詢</span>
+                <span>歷史資料</span>
                 <el-button-group style="float: right;">
-                  <el-tooltip class="item" effect="dark" content="裝置列表" placement="top">
+                  <el-tooltip class="item" effect="dark" content="顯示資料列表" placement="top">
                     <el-button type="primary" icon="el-icon-tickets" @click="displayTable"></el-button>
                   </el-tooltip>
-                  <el-tooltip class="item" effect="dark" content="折線圖" placement="top">
+                  <el-tooltip class="item" effect="dark" content="顯示資料折線圖" placement="top">
                     <el-button type="success" icon="el-icon-picture" @click="displayChart"></el-button>
                   </el-tooltip>
                   <el-tooltip class="item" effect="dark" content="輸出CSV" placement="top">
