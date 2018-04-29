@@ -50,9 +50,9 @@ export default {
       rememberMe: false,
       isBtnLoading: false,
       ruleForm: {
-        acc: 'sysAdmin',
-        pwd: 'gemtek123',
-        cp: 'gemtek',
+        acc: '',
+        pwd: '',
+        cp: '',
         type: 0
       },
       rules: {

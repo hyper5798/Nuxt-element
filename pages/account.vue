@@ -161,11 +161,11 @@
         allDevice: null,
         sortDevice: null,
         ruleForm2: {
-          name: 'test4',
-          pwd: '12345678',
-          pwd2: '12345678',
-          gender: 'M',
-          email: 'hyper579@gmail.com',
+          name: '',
+          pwd: '',
+          pwd2: '',
+          gender: '',
+          email: '',
           cp: ''
         },
         rules2: {
