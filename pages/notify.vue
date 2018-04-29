@@ -40,9 +40,9 @@
               <div class="text item">
                 <h3>裝置類型</h3>
 
-                <el-menu theme="dark" @select="myMenuSelect">
-                  <el-menu-item v-for="(map, index) in mapList"
-                                :key="index"
+                <el-menu v-if="mapList" theme="dark" @select="myMenuSelect">
+                  <el-menu-item v-for="map in mapList"
+                                :key="map.deviceType"
                                 v-bind:index="map.deviceType" >
                     {{map.typeName}}
                   </el-menu-item>
@@ -143,20 +143,20 @@
       },
       toSortProfile () {
         if (this.mapList && this.sortDevice === null) {
+          // alert('test')
           // console.log('this.currentList : ' + JSON.stringify(this.currentList))
           //this.allProfile = JSON.parse(JSON.stringify(this.currentList))
           // console.log('?????this.mapList : ' + JSON.stringify(this.mapList))
 
           var tmp = {}
-          var currentType = null
           console.log(this.mapList)
           for (let i = 0; i < this.mapList.length; ++i) {
             let type = this.mapList[i].deviceType
             if (i === 0) {
-              currentType = type // Default selected type
+              this.currentType = type // Default selected type
             }
             if (tmp[type] === undefined) {
-              tmp[type] = []
+              tmp[type] = {}
             }
             let profile = this.mapList[i].profile
             // alert(type)
@@ -173,18 +173,21 @@
             }
             console.log(tmp)
             this.sortDevice = tmp
-            this.currentList = this.sortDevice[currentType].profile
-            this.currentTypeName = this.sortDevice[currentType].name
+            this.currentList = this.sortDevice[this.currentType].profile
+            this.currentTypeName = this.sortDevice[this.currentType].name
           }
         }
       },
       getProfile (fieldName) {
-        var keys= Object.keys(fieldName)
-        if (keys) {
-          var obj = {}
-          for (let i=0; i < keys.length ; ++i) {
-            let key = keys[i]
-            obj[key] = {title: fieldName[key], high: '', low: ''}
+        var obj = {}
+        if (fieldName) {
+          var keys= Object.keys(fieldName)
+          if (keys) {
+
+            for (let i=0; i < keys.length ; ++i) {
+              let key = keys[i]
+              obj[key] = {title: fieldName[key], high: '', low: ''}
+            }
           }
         }
         // console.log(obj)
@@ -192,8 +195,14 @@
       },
       async toUpdateProfile (profile) {
         // updateMapProfile
+        /* for (let i = 0; i < this.mapList.length; ++i) {
+          if (Object.is(this.mapList[i].deviceType, this.currentType)) {
+            alert(JSON.stringify(this.mapList[i]))
+            alert(this.mapList[i]._id)
+          }
+        } */
         var json = {token: this.authUser.authToken, deviceType: this.currentType, profile: profile}
-        alert(JSON.stringify(json))
+        // alert(JSON.stringify(json))
         await updateMapProfile(this, json).then(result => {
           // console.log(result)
           if (result.responseCode === '000') {
@@ -219,6 +228,7 @@
         const [list] = await Promise.all([
           getMapList(app, {token: token}).then(res => res.data)
         ])
+        console.log(list.data)
 
         return {
           mapList: list.data,
