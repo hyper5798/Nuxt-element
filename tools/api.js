@@ -6,10 +6,10 @@ export const getLogList = (vm, params) => {
 
 /* ------------------------------- map api -----------------------------*/
 export const getMapList = (vm, params) => {
-  return vm.$axios.get('/map/v1/', {params: params})
+  return vm.$axios.get('/device/v1/maps', {params: params})
 }
 export const updateMapProfile = (vm, params) => {
-  return vm.$axios.$put('/map/v1/', params).then(res => res)
+  return vm.$axios.$put('/device/v1/maps', params).then(res => res)
 }
 
 export const getEventList = (vm, params) => {

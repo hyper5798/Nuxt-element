@@ -11,10 +11,7 @@
         <el-form-item label="密碼" prop="pwd">
           <el-input v-model="ruleForm.pwd"></el-input>
         </el-form-item>
-        <el-form-item>
-        <!--<el-form-item label="記住我?" prop="delivery">
-          <el-switch v-model="ruleForm.rememberMe"></el-switch>
-        </el-form-item> -->
+
         <el-form-item v-if="cpList" label="場域" prop="cp">
           <el-select v-model="ruleForm.cp" clearable placeholder="請選擇場域">
             <el-option
@@ -25,7 +22,7 @@
             </el-option>
           </el-select>
         </el-form-item>
-        </el-form-item>
+
         <el-form-item>
           <el-button type="primary" @click="submitForm('ruleForm')">立即登入</el-button>
         </el-form-item>
@@ -45,8 +42,8 @@ export default {
   layout: 'full',
   data() {
     return {
-      username: 'Rogwang',
-      password: 'gemtek123',
+      username: '',
+      password: '',
       rememberMe: false,
       isBtnLoading: false,
       ruleForm: {
@@ -55,6 +52,11 @@ export default {
         cp: '',
         type: 0
       },
+      cpList: [
+        {"cpId":1,"cpName":"gemtek"},
+        {"cpId":7,"cpName":"NIU"},
+        {"cpId":8,"cpName":"NDHU"}
+        ],
       rules: {
         acc: [
           { required: true, message: '請輸入帳號名稱', trigger: 'blur' },
@@ -118,19 +120,19 @@ export default {
       })
     }
   },
-  asyncData: async function ({app, error, store}) {
+  /* asyncData: async function ({app, error, store}) {
     try {
       const [list] = await Promise.all([
         getSimpleCpList(app, {token: null}).then(res => res.data)
       ])
-      console.log(JSON.stringify(list))
+      console.log(JSON.stringify(list.grps))
       return {
         cpList: list.grps
       }
     } catch (err) {
       error(err)
     }
-  }
+  } */
 }
 </script>
 
