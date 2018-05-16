@@ -114,7 +114,8 @@
       isShowAdd: false,
       currentList: null,
       allDevice: null,
-      sortDevice: null
+      sortDevice: null,
+      macList: []
     }),
     methods: {
       addNewDevice () {
@@ -138,11 +139,12 @@
 
       async toAddNewDevice () {
         // alert('toAddNewDevice')
+        document.getElementById('file1').value = ""
         var list = []
         for (let i =0; i< newList.length; ++i) {
           list.push(newList[i]['mac'])
         }
-        var json = {token: this.authUser.authToken, list: list, type: 'LoRaM'}
+        var json = {token: this.authUser.authToken, list: newList, type: 'LoRaM'}
         await addBatchDevice(this, json).then(result => {
           // console.log(result)
           if (result.responseCode === '000') {
@@ -160,19 +162,46 @@
             })
           }
         })
-      },    importf (event) {
+      },
+      getMacList: function () {
+        // alert('getMacList')
+        var tmp = []
+        var all = []
+        if (this.allDevice === null) {
+          all = JSON.parse(JSON.stringify(this.currentList))
+        } else {
+          all = this.allDevice
+        }
+        // alert(JSON.stringify(all))
+        if (all && all.length > 0) {
+          for (let i = 0; i < all.length; i++) {
+            let device = all[i]
+            tmp.push(device.device_mac)
+          }
+        }
+        // alert(JSON.stringify(tmp))
+        return tmp
+      },
+      importf (event) {
         isEnableNew = false
         document.getElementById("demo").innerHTML= ''
         // console.log(event)
         if(!event.target.files) {
           return
         }
+        if (this.macList.length === 0) {
+          this.macList = this.getMacList()
+        }
+        var mList = this.macList
+        // alert('this.macList')
+        // alert(this.macList)
         var f = event.target.files[0]
         var reader = new FileReader()
         var wb = null
         var rABS = false
         var checkList = []
         var repeatList = []
+        var existList = []
         reader.onload = function(e) {
           var data = e.target.result
           if(rABS) {
@@ -185,7 +214,7 @@
             })
           }
           newList = XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]])
-          // alert(newList)
+          // alert(mList)
           var errArr = []
           for (let i = 0 ; i < newList.length ; ++i) {
             let check = newList[i]['mac']
@@ -194,7 +223,10 @@
             if (check.length !== 16 || check2 !== '00000000') {
               errArr.push(check)
             } else {
-              // console.log(check + ' > ' + checkList.indexOf(check))
+
+              if (mList.indexOf(check) > -1){
+                existList.push(check)
+              }
               if (checkList.indexOf(check) > -1) {
                 repeatList.push(check)
               } else {
@@ -202,26 +234,34 @@
               }
             }
           }
+          var result = '檢查結果 : '
           var repeatString = repeatList.toString()
           var errString = errArr.toString()
-          // console.log(typeof errString + ' : ' + errString )
-          if (errString.length === 0 && repeatString.length === 0) {
-            errString = '檢查結果 : 所有裝置識別碼(mac)檢查 OK'
+          var existString = existList.toString()
+          // alert('errString : ' + errString )
+          // alert('repeatString : ' + repeatString )
+          // alert('existString : ' +existString )
+
+          if (errString.length === 0 && repeatString.length === 0 && existString.length === 0) {
+            result = result + '<br>所有裝置識別碼(mac)檢查OK<br>' + checkList.toString()
             isEnableNew = true
             this.isEnableNew = true
           } else {
-            if (errString.length > 0 && repeatString.length === 0) {
-              errString = '檢查結果 : <br>部分裝置識別碼(mac)不正確,請更正後重新匯入<br>不正確名單: ' +  errString
-            } else if (errString.length === 0 && repeatString.length > 0) {
-              errString = '檢查結果 : <br>部分裝置識別碼(mac)重複,請更正後重新匯入<br>重複名單    : ' +  repeatString
-            } else {
-              errString = '檢查結果 : <br>部分裝置識別碼(mac)不正確及重複,請更正後重新匯入' +
-                                           '<br>不正確名單: ' +  errString +
-                                           '<br>重複名單: ' +  repeatString
+            result = result + '<br>部分裝置識別碼(mac)不正確,請更正後重新匯入<br>'
+            if (existString.length > 0) {
+              result = result + '已存在名單: ' +  existString + '<br>'
+            }
+            if (errString.length > 0) {
+              result = result + '不正確名單: ' +  errString + '<br>'
+            }
+            if (repeatString.length > 0) {
+              result = result + '不正確名單: ' + errString + '<br>'
+              '重複名單    : ' + repeatString + '<br>'
             }
             document.getElementById('file1').value = "";
           }
-          document.getElementById("demo").innerHTML= errString
+          // alert('result : ' + result )
+          document.getElementById("demo").innerHTML= result
           wb = null
         }
         if(rABS) {
@@ -256,6 +296,10 @@
             let type = this.allDevice[i].fport
             if (tmp[type] === undefined) {
               tmp[type] = []
+            }
+            // alert('this.allDevice[' + i + '].remark :' + this.allDevice[i].remark)
+            if (this.allDevice[i].remark) {
+
             }
             tmp[type].push(this.allDevice[i])
             // console.log('tmp : ' + JSON.stringify(tmp))
@@ -366,6 +410,9 @@
           getDeviceList(app, {token: token}).then(res => res.data)
         ])
 
+        console.log('********** map list ***********')
+        console.log(list.data)
+        console.log(list2.mList)
         store.dispatch('set_map', list.data)
         return {
           mapList: list.data,

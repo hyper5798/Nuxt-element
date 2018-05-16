@@ -91,12 +91,16 @@ export default {
       })
     },
     login() {
-      if (!this.username) {
+      if (!this.ruleForm.acc) {
         this.$message.error('請填寫用戶名！！！')
         return
       }
-      if (!this.password) {
+      if (!this.ruleForm.pwd) {
         this.$message.error('請填寫密碼')
+        return
+      }
+      if (!this.ruleForm.cp) {
+        this.$message.error('請選擇場域')
         return
       }
       this.isBtnLoading = true
