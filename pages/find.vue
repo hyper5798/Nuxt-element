@@ -156,10 +156,12 @@
         }
       },
       handleChange (value) {
-        // alert(value)
         this.target = value
         let fport = this.target[0]
-        // console.log('fport : ' + fport)
+        if (this.target[1] === undefined) {
+          this.waring('沒有裝置,無法查詢')
+          return
+        }
         for (let i = 0; i < this.mapList.length; ++i) {
           if (this.mapList[i].deviceType === fport) {
             this.selectMap = JSON.parse(JSON.stringify(this.mapList[i]))
@@ -406,40 +408,64 @@
     asyncData: async function ({app, error, store}) {
       try {
         var token = store.state.authUser.authToken
+        // Add for filter device with cp id on 2018.06.02
+        var cp = 1
+        if (store.state.authUser.userInfo.cp === 'NDHU') {
+          cp = 8
+        } else if (store.state.authUser.userInfo.cp === 'NIU'){
+          cp = 7
+        }
 
         const [list, list2] = await Promise.all([
           getMapList(app, {token: token}).then(res => res.data),
           getDeviceList(app, {token: token}).then(res => res.data)
         ])
-        // console.log('list ' + JSON.stringify(list.data))
+        console.log('device list ')
+        console.log(list2.mList)
         var map = {}
+
         if (list2.mList) {
           list2.mList.forEach(function (device) {
+            // Add for filter device with cp id on 2018.06.02
+            // alert(device.device_cp_id + ' -> ' + device.device_mac)
             let info = {value: device.device_mac, label: device.device_name}
-            if (map[device.fport]) {
-              map[device.fport].push(info)
-            } else {
-              map[device.fport] = [info]
+            if (device.device_cp_id === cp) {
+              if (map[device.fport]) {
+                map[device.fport].push(info)
+              } else {
+                map[device.fport] = [info]
+              }
             }
           })
         } else {
           alert('尚未加入任何裝置')
         }
+        console.log('map')
+        console.log(map)
+        var keys = Object.keys(map)
+        console.log('keys')
+        console.log(keys)
 
-        //console.log('map : ' + JSON.stringify(map))
+        console.log('map : ' + JSON.stringify(map))
         var test = []
+        var mapList = []
         list.data.forEach(function (item) {
-          let info = {value: item.deviceType, label: item.typeName}
-          // console.log('map : ' + JSON.stringify(map[item.deviceType]))
-          if (map[item.deviceType]) {
-            info.children = map[item.deviceType]
+          let a = keys.indexOf(item.deviceType)
+          console.log('item.deviceType : ' + item.deviceType)
+          if (a > -1) {
+            let info = {value: item.deviceType, label: item.typeName}
+            alert('map : ' + JSON.stringify(map[item.deviceType]))
+            if (map[item.deviceType]) {
+              info.children = map[item.deviceType]
+            }
+            mapList.push(item)
+            test.push(info)
           }
-          test.push(info)
         })
-        // console.log('test ' + JSON.stringify(test))
+        console.log('test ' + JSON.stringify(test))
         store.dispatch('set_map', list.data)
         return {
-          mapList: list.data,
+          mapList: mapList,
           options: test
         }
       } catch (err) {

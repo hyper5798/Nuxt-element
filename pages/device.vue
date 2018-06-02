@@ -409,6 +409,14 @@
           getMapList(app, {token: token}).then(res => res.data),
           getDeviceList(app, {token: token}).then(res => res.data)
         ])
+        var token = store.state.authUser.authToken
+        // Add for filter device with cp id on 2018.06.02
+        var cp = 1
+        if (store.state.authUser.userInfo.cp === 'NDHU') {
+          cp = 8
+        } else if (store.state.authUser.userInfo.cp === 'NIU'){
+          cp = 7
+        }
 
         console.log('********** map list ***********')
         console.log(list.data)
